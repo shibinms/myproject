@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="">
+  <h1 align="center">Edit Branch</h1>
+  <div align="center">
+    <table width="200" border="0">
+      <tr>
+        <td>Branch Name</td>
+        <td><label for="branchname"></label>
+        <input type="text" name="branchname" id="branchname" /></td>
+      </tr>
+      <tr>
+        <td>Place</td>
+        <td><label for="bplace"></label>
+        <input type="text" name="bplace" id="bplace" /></td>
+      </tr>
+      <tr>
+        <td>District</td>
+        <td><label for="bdistrict"></label>
+        <input type="text" name="bdistrict" id="bdistrict" /></td>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td><label for="bstate"></label>
+        <input type="text" name="bstate" id="bstate" /></td>
+      </tr>
+      <tr>
+        <td>Country</td>
+        <td><label for="bcountry"></label>
+        <input type="text" name="bcountry" id="bcountry" /></td>
+      </tr>
+      <tr>
+        <td>Pin</td>
+        <td><label for="bpin"></label>
+        <input type="text" name="bpin2" id="bpin" /></td>
+      </tr>
+      <tr>
+        <td>Phone No</td>
+        <td><label for="bphone"></label>
+        <input type="text" name="bphone" id="bphone" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div align="center">
+          <input type="submit" name="add" id="add" value="UPDATE" />
+        </div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>

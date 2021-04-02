@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="">
+  <div align="center">
+    <h1>Sales Report</h1>
+    <table width="342" border="1">
+      <tr>
+        <td colspan="8"><p>Start Date
+            <label for="start_date"></label>
+        <input type="text" name="start_date" id="start_date" />
+        </p>
+        <p>End Date
+          <label for="end_date"></label>
+          <input type="text" name="end_date" id="end_date" />
+          <input type="submit" name="search" id="search" value="Search" />
+        </p>
+        <p>Branch Name
+          <label for="branch_name"></label>
+          <input type="text" name="branch_name" id="branch_name" />
+          <input type="submit" name="branch_search" id="branch_search" value="Submit" />
+        </p></td>
+      </tr>
+      <tr>
+        <td width="13">#</td>
+        <td width="40">Sales. No</td>
+        <td width="29">Branch Name</td>
+        <td width="29">Date</td>
+        <td width="63">Customer Name</td>
+        <td width="33">Phone No</td>
+        <td width="48">Total Amount</td>
+        <td width="35">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="63">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td><a href="/myapp/adm_view_sales_details_admin/">More</a></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form action="/myapp/adm_add_product_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">{% csrf_token %}
+  <h1 align="center">Add Product</h1>
+  <div align="center">
+    <table width="386" border="0">
+      <tr>
+        <td width="89">Product Name</td>
+        <td width="287"><label for="productname"></label>
+        <input type="text" name="productname" id="productname" /></td>
+      </tr>
+      <tr>
+        <td>Type of Product</td>
+        <td>
+          <label for="type"></label>
+          <select name="type" id="type">
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+        </select></td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td>
+          <label for="price"></label>
+        <input type="text" name="price" id="price" /></td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td>
+          <label for="image"></label>
+        <input type="file" name="image" id="image" /></td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td>
+          <label for="description"></label>
+        <textarea name="description" id="description" cols="45" rows="5"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div align="center">
+          <input type="submit" name="add" id="add" value="ADD" />
+        </div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>

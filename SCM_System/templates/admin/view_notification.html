@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="">
+  <div align="center">
+    <h1>View Notification</h1>
+    <table width="473" border="1">
+      <tr>
+        <td colspan="6"><p>
+          <label for="bname search"></label>
+          Branch Name
+<input type="text" name="bname search" id="bname search" />
+          <input type="submit" name="search" id="search" value="Search" />
+        </p></td>
+      </tr>
+      <tr>
+        <td width="36">Sl.No</td>
+        <td width="73">Branch Name</td>
+        <td width="69">Date</td>
+        <td width="40">Title</td>
+        <td width="40">Message</td>
+        <td width="60">&nbsp;</td>
+      </tr>{% for i in data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.BRANCH.branch_name }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.title }}</td>
+        <td>{{ i.message }}</td>
+        <td><p><a href="#">Delete</a></p></td>
+      </tr>{% endfor %}
+    </table>
+    <p>&nbsp;</p>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>

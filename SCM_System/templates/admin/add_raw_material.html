@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form action="/myapp/adm_add_raw_material_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">{% csrf_token %}
+  <h1 align="center">Add Raw Materials</h1>
+  <div align="center">
+    <table width="386" border="0">
+      <tr>
+        <td width="89">Material Name</td>
+        <td width="287">
+          <label for="materialname"></label>
+        <input type="text" name="materialname" id="materialname" /></td>
+      </tr>
+      <tr>
+        <td>GSM</td>
+        <td>
+          <label for="gsm"></label>
+          <select name="gsm" id="gsm">
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+          </select></td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td>
+          <label for="price"></label>
+        <input type="text" name="price" id="price" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div align="center">
+          <input type="submit" name="add" id="add" value="ADD" />
+        </div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>

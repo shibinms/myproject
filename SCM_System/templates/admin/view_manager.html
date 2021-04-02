@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="">
+  <div align="center">
+    <h1>VIEW MANAGER</h1>
+    <table width="576" border="1">
+      <tr>
+        <td colspan="8">Manager Name
+          <label for="bname search"></label>
+        <input type="text" name="bname search" id="bname search" />
+        <input type="submit" name="search" id="search" value="Search" /></td>
+      </tr>
+
+      <tr>
+        <td width="36">Sl.No</td>
+        <td width="58">Manager Name</td>
+        <td width="49">Gender</td>
+        <td width="85">Date of Birth</td>
+        <td width="74">Address</td>
+        <td width="109">Branch Name</td>
+        <td width="45">Image</td>
+        <td width="68">&nbsp;</td>
+      </tr>
+        {% for i in data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.manager_name }}</td>
+        <td>{{ i.gender }}</td>
+        <td>{{ i.dob }}</td>
+        <td>{{ i.place }},{{ i.district }}, {{ i.state }}, {{ i.pin }}, {{ i.email }}, {{ i.phone }}</td>
+        <td>{{ i.BRANCH.branch_name }}</td>
+        <td><img src="{{ i.profile_img }}" height="60px" width="60px"/></td>
+        <td><p><a href="/myapp/adm_edit_manager/">Edit</a></p>
+        <p><a href="#">Delete</a></p></td>
+      </tr>
+        {% endfor %}
+    </table>
+    <p>&nbsp;</p>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>
