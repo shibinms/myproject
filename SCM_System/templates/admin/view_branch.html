@@ -11,7 +11,7 @@
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View Branch</h1>
-    <table width="347" border="1">
+    <table class="table table-hover">
       <tr>
         <td colspan="6">Branch Name
           <label for="bname search"></label>
@@ -19,11 +19,11 @@
         <input type="submit" name="search" id="search" value="Search" /></td>
       </tr>
       <tr>
-        <td width="22">Sl.No</td>
-        <td width="22">Branch Name</td>
-        <td width="22">Email</td>
-        <td width="22">Phone</td>
-        <td width="22">Address</td>
+          <td width="22"><b>Sl.No</b></td>
+        <td width="22"><b>Branch Name</b></td>
+          <td width="22"><b>Email</b></td>
+        <td width="22"><b>Phone</b></td>
+        <td width="22"><b>Address</b></td>
         <td width="169">&nbsp;</td>
       </tr>
         {% for i in data %}
@@ -33,8 +33,8 @@
         <td>{{ i.email }}</td>
         <td>&nbsp;{{ i.phone }}</td>
           <td>&nbsp;{{ i.place }},{{ i.distric }},{{ i.state }},{{ i.country }},{{ i.pin }}</td>
-        <td><p><a href="/myapp/adm_edit_branch/">Edit</a></p>
-        <p><a href="#">Delete</a></p></td>
+        <td><p><a href="/myapp/adm_edit_branch/{{ i.pk }}">Edit</a></p>
+        <p><a href="/myapp/adm_del_branch/{{ i.pk }}">Delete</a></p></td>
       </tr>
         {% endfor %}
     </table>

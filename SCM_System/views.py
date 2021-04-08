@@ -3,7 +3,7 @@ from datetime import date
 
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 from SCM_System.models import branch, login, manager, raw_material, product, notification, request_master
@@ -63,6 +63,11 @@ def adm_add_manager(request):
     res = branch.objects.all()
     return render(request, "admin/add_manager.html", {'data':res})
 
+def adm_del_manager(request,id):
+    qry=manager.objects.get(pk=id)
+    qry.delete()
+    return redirect("myapp:adm_view_manager")
+
 def adm_add_manager_post(request):
     manager_name=request.POST['mname']
     dob=request.POST['mdob']
@@ -116,9 +121,7 @@ def adm_add_raw_material_post(request):
     return adm_view_raw_material(request)
 def adm_allocate_raw_material(request):
     return render(request,"admin/allocate_raw_material.html")
-def adm_edit_branch(request):
-    res = branch.objects.all()
-    return render(request,"admin/edit_branch.html", {'data':res})
+
 def adm_edit_manager(request):
     return render(request,"admin/edit_manager.html")
 def adm_edit_product(request):
@@ -165,6 +168,15 @@ def adm_view_sales_report_admin(request):
     return render(request,"admin/view_sales_report_admin.html")
 def adm_homepage(request):
     return render(request, "index.html")
+def adm_del_branch(request,id):
+    qry=branch.objects.get(pk=id)
+    qry.delete()
+    return redirect("myapp:adm_view_branch")
+
+def adm_edit_branch(request,id):
+    res = branch.objects.get(pk=id)
+    return render(request,"admin/edit_branch.html", {'data':res})
+
 
 
 
