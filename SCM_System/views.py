@@ -109,6 +109,11 @@ def adm_add_product_post(request):
     qry.save()
     return adm_view_product(request)
 
+def adm_del_product(request,id):
+    qry=product.objects.get(pk=id)
+    qry.delete()
+    return redirect("myapp:adm_view_product")
+
 def adm_add_raw_material(request):
     return render(request, "admin/add_raw_material.html")
 
@@ -122,8 +127,6 @@ def adm_add_raw_material_post(request):
 def adm_allocate_raw_material(request):
     return render(request,"admin/allocate_raw_material.html")
 
-def adm_edit_manager(request):
-    return render(request,"admin/edit_manager.html")
 def adm_edit_product(request):
     return render(request,"admin/edit_product.html")
 def adm_edit_raw_material(request):
@@ -176,6 +179,15 @@ def adm_del_branch(request,id):
 def adm_edit_branch(request,id):
     res = branch.objects.get(pk=id)
     return render(request,"admin/edit_branch.html", {'data':res})
+
+    branch_name=request.POST['branchname']
+    place=request.POST['bplace']
+    district=request.POST['bdistrict']
+    state = request.FILES['bstate']
+    country=request.POST['bcountry']
+    place=request.POST['bplace']
+    pin=request.POST['bpin']
+    phone = request.FILES['bphone']
 
 
 

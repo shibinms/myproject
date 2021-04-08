@@ -33,6 +33,7 @@ urlpatterns = [
     path('adm_view_sales_report_admin/', views.adm_view_sales_report_admin),
     path('adm_homepage/', views.adm_homepage),
     path('adm_del_manager/<int:id>',views.adm_del_manager),
+    path('adm_del_product/<int:id>',views.adm_del_product),
     path('adm_del_branch/<int:id>',views.adm_del_branch),
     path('adm_edit_branch/<int:id>',views.adm_edit_branch),
 
