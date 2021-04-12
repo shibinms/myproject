@@ -8,15 +8,15 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post">
+<form id="form1" name="form1" method="post" action="/myapp/adm_branch_name_search/"> {% csrf_token %}
   <div align="center">
     <h1>View Branch</h1>
     <table class="table table-hover">
       <tr>
         <td colspan="6">Branch Name
           <label for="bname search"></label>
-        <input type="text" name="bname search" id="bname search" />
-        <input type="submit" name="search" id="search" value="Search" /></td>
+        <input type="text" class="input-group input-group-sm" name="bnamesearch" id="bnamesearch" />
+            <input type="submit" class="btn btn-default" name="search" id="search" value="Search" /><i class="glyphicon glyphicon-search"></i></td>
       </tr>
       <tr>
           <td width="22"><b>Sl.No</b></td>

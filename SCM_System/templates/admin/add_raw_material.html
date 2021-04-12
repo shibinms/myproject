@@ -8,7 +8,7 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form action="/myapp/adm_add_raw_material_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">{% csrf_token %}
+<form action="/myapp/adm_add_raw_material_post/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()">{% csrf_token %}
   <h1 align="center">Add Raw Materials</h1>
   <div align="center">
     <table width="386" border="0">
@@ -16,32 +16,29 @@
         <td width="89">Material Name</td>
         <td width="287">
           <label for="materialname"></label>
-        <input type="text" name="materialname" id="materialname" /></td>
+        <input type="text" name="materialname" id="materialname" required/></td>
       </tr>
       <tr>
         <td>GSM</td>
         <td>
-          <label for="gsm"></label>
-          <select name="gsm" id="gsm">
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-          </select></td>
+          <label for="GSM"></label>
+        <input type="text" name="gsm" id="gsm" required/></td>
       </tr>
       <tr>
         <td>Price</td>
         <td>
           <label for="price"></label>
-        <input type="text" name="price" id="price" /></td>
+        <input type="text" name="price" id="price" required/></td>
       </tr>
       <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="ADD" />
+        <td colspan="2"><div class="container" align="center">
+          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="ADD" />
         </div></td>
       </tr>
     </table>
   </div>
 </form>
+
 {% endblock %}
 </body>
 </html>

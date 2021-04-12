@@ -8,38 +8,37 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="/myapp/adm_update_raw_material/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
   <h1 align="center">Edit Raw Materials</h1>
   <div align="center">
     <table width="386" border="0">
       <tr>
         <td width="89">Material Name</td>
-        <td width="287"><label for="branchname"></label>
+        <td width="287">
           <label for="materialname"></label>
-        <input type="text" name="materialname" id="materialname" /></td>
+        <input type="text" name="materialname" id="materialname" value="{{ data.raw_material_name }}" required/></td>
       </tr>
       <tr>
         <td>GSM</td>
-        <td><label for="bplace"></label>
-          <label for="type"></label>
-          <label for="gsm"></label>
-          <select name="gsm" id="gsm">
-          </select></td>
+        <td>
+          <label for="price"></label>
+        <input type="text" name="gsm" id="gsm" value="{{ data.price }}" required/></td>
       </tr>
       <tr>
         <td>Price</td>
-        <td><label for="bdistrict"></label>
+        <td>
           <label for="price"></label>
-        <input type="text" name="price" id="price" /></td>
+        <input type="text" name="price" id="price" value="{{ data.price }}" required/></td>
       </tr>
       <tr>
         <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="UPDATE" />
+          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
         </div></td>
       </tr>
     </table>
   </div>
 </form>
+
 {% endblock %}
 </body>
 </html>

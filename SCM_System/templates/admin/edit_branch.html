@@ -8,53 +8,111 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="">
+<form id="form1" name="form1" method="post" action="/myapp/adm_update_branch/" onsubmit="return validate()"> {% csrf_token %}
   <h1 align="center">Edit Branch</h1>
   <div align="center">
     <table width="200" border="0">
       <tr>
         <td>Branch Name</td>
         <td><label for="branchname"></label>
-        <input type="text" name="branchname" id="branchname" value="{{ data.branch_name }}" /></td>
+        <input type="text" name="branchname" id="branchname" value="{{ data.branch_name }}" required/></td>
       </tr>
       <tr>
         <td>Place</td>
         <td><label for="bplace"></label>
-        <input type="text" name="bplace" id="bplace" value="{{ data.place }}"/></td>
+        <input type="text" name="bplace" id="bplace" value="{{ data.place }}" required/></td>
       </tr>
       <tr>
         <td>District</td>
         <td><label for="bdistrict"></label>
-        <input type="text" name="bdistrict" id="bdistrict" value="{{ data.district }}"/></td>
+        <input type="text" name="bdistrict" id="bdistrict" value="{{ data.district }}" required/></td>
       </tr>
       <tr>
         <td>State</td>
         <td><label for="bstate"></label>
-        <input type="text" name="bstate" id="bstate" value="{{ data.state }}"/></td>
+        <input type="text" name="bstate" id="bstate" value="{{ data.state }}" required/></td>
       </tr>
       <tr>
         <td>Country</td>
         <td><label for="bcountry"></label>
-        <input type="text" name="bcountry" id="bcountry" value="{{ data.country }}"/></td>
+        <input type="text" name="bcountry" id="bcountry" value="{{ data.country }}" required/></td>
       </tr>
       <tr>
         <td>Pin</td>
         <td><label for="bpin"></label>
-        <input type="text" name="bpin" id="bpin" value="{{ data.pin }}"/></td>
+        <input type="text" name="bpin" id="bpin" value="{{ data.pin }}" required/></td>
       </tr>
       <tr>
         <td>Phone No</td>
         <td><label for="bphone"></label>
-        <input type="text" name="bphone" id="bphone" value="{{ data.phone }}"/></td>
+        <input type="text" name="bphone" id="bphone" value="{{ data.phone }}" required/></td>
       </tr>
       <tr>
         <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="UPDATE" />
+          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
         </div></td>
       </tr>
     </table>
   </div>
 </form>
+     <script>
+    function validate(){
+        var letters = /^[A-Za-z ]+$/;
+        var cate=document.getElementById('branchname');
+        if(!cate.value.match(letters))
+      {
+      alert('Branch name should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z]+$/;
+        var catm=document.getElementById('bplace');
+        if(!catm.value.match(letters))
+      {
+      alert('Place should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z ]+$/;
+        var catv=document.getElementById('bdistrict');
+        if(!catv.value.match(letters))
+      {
+      alert('District should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z]+$/;
+        var catd=document.getElementById('bstate');
+        if(!catd.value.match(letters))
+      {
+      alert('State should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z ]+$/;
+        var cat=document.getElementById('bcountry');
+        if(!cat.value.match(letters))
+        {
+        alert('Country should be alphabet only');
+
+        return false;
+        }
+        var numbers = /^[0-6]+$/;
+        var catp=document.getElementById('bpin');
+        if(!catp.value.match(numbers))
+        {
+            alert('Pin should be numbers only');
+            return false;
+        }
+
+       var numbers = /^[0-9]+$/;
+        var cati=document.getElementById('bphone');
+        if(!cati.value.match(numbers))
+        {
+            alert('Phone No. should be numbers only');
+
+        return false;
+        }
+        return true;
+        }
+
+    </script>
 {% endblock %}
 </body>
 </html>

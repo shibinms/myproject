@@ -8,25 +8,25 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form action="/myapp/adm_add_manager_post/" method="post" enctype="multipart/form-data" name="form1" id="form1"> {% csrf_token %}
+<form action="/myapp/adm_add_manager_post/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
   <h1 align="center">Add Manager</h1>
   <div align="center">
     <table width="391" border="0">
       <tr>
         <td width="176">Manager Name</td>
         <td width="205"><label for="mname"></label>
-        <input type="text" name="mname" id="mname" />
+        <input type="text" name="mname" id="mname" required />
       </tr>
       <tr>
         <td>Date of Birth</td>
         <td>
           <label for="mdob"></label>
-        <input type="date" name="mdob" id="mdob" /></td>
+        <input type="date" name="mdob" id="mdob" required/></td>
       </tr>
       <tr>
         <td height="92">Gender</td>
         <td><p>
-          <input type="radio" name="radio" id="male" value="male" />
+          <input type="radio" name="radio" id="male" value="male"/>
           <label for="male">Male</label> 
           </p>
           <p>
@@ -52,49 +52,100 @@
         <td>Place</td>
         <td>
           <label for="place"></label>
-        <input type="text" name="place" id="place" /></td>
+        <input type="text" name="place" id="place" required/></td>
       </tr>
       <tr>
         <td>District</td>
         <td>
           <label for="district"></label>
-        <input type="text" name="district" id="district" /></td>
+        <input type="text" name="district" id="district" required/></td>
       </tr>
     <tr>
         <td>State</td>
         <td>
           <label for="state"></label>
-        <input type="text" name="state" id="state" /></td>
+        <input type="text" name="state" id="state" required/></td>
       </tr>
       <tr>
         <td>Pin</td>
         <td>
           <label for="pin"></label>
-        <input type="text" name="pin" id="pin" /></td>
+        <input type="text" name="pin" id="pin" required/></td>
       </tr>
       <tr>
         <td>Email</td>
         <td><label for="email"></label>
-        <input type="text" name="email" id="email" />
+        <input type="email" name="email" id="email" required/>
       </tr>
       <tr>
         <td>Phone No</td>
         <td><label for="phone"></label>
-        <input type="text" name="phone" id="phone" /></td>
+        <input type="text" name="phone" id="phone" required/></td>
       </tr>
       <tr>
         <td>Image</td>
         <td><label for="image"></label>
-        <input type="file" name="image" id="image" />
+        <input type="file" name="image" id="image" required/>
       </tr>
       <tr>
         <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="ADD" />
+          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="ADD" />
         </div></td>
       </tr>
     </table>
   </div>
 </form>
+     <script>
+    function validate(){
+        var letters = /^[A-Za-z ]+$/;
+        var cate=document.getElementById('mname');
+        if(!cate.value.match(letters))
+      {
+      alert('Manager name should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z]+$/;
+        var catm=document.getElementById('place');
+        if(!catm.value.match(letters))
+      {
+      alert('Place should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z ]+$/;
+        var catv=document.getElementById('district');
+        if(!catv.value.match(letters))
+      {
+      alert('District should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z]+$/;
+        var catd=document.getElementById('state');
+        if(!catd.value.match(letters))
+      {
+      alert('State should be alphabet only');
+      return false;
+      }
+
+        var numbers = /^\d{6}$/;
+        var catp=document.getElementById('pin');
+        if(!catp.value.match(numbers))
+        {
+            alert('Pin should be numbers only');
+            return false;
+        }
+
+       var numbers = /^\d{10}$/;
+        var cati=document.getElementById('phone');
+        if(!cati.value.match(numbers))
+        {
+            alert('Phone No. should be numbers only');
+
+        return false;
+        }
+        return true;
+        }
+
+    </script>
 {% endblock %}
 
 </body>

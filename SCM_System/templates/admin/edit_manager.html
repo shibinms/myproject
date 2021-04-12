@@ -8,82 +8,164 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="/myapp/adm_update_manager/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
   <h1 align="center">Edit Manager</h1>
   <div align="center">
     <table width="391" border="0">
-      <tr>{% for i in data %}
+      <tr>
         <td width="176">Manager Name</td>
         <td width="205"><label for="mname"></label>
-        <input type="text" name="mname" id="mname" value="{{ i.manager_name }}"/>
+        <input type="text" name="mname" id="mname" value="{{ data.manager_name }}"/>
       </tr>
       <tr>
         <td>Date of Birth</td>
-        <td><label for="bplace"></label>
-          <label for="mdob"></label>
-        <input type="text" name="mdob" id="mdob" value="{{ i.dob }}"/></td>
+        <td><label for="date"></label>
+        <input type="date" name="date" id="date" value="{{ data.dob }}" required/></td>
       </tr>
       <tr>
         <td height="92">Gender</td>
+          {% if data.gender == 'male' %}
         <td><p>
-          <input type="radio" name="radio" id="male" value="{{ i.gender }}" />
-          <label for="male">Male</label> 
+          <input type="radio" name="radio" id="male" checked/>
+          <label for="male">Male</label>
           </p>
           <p>
-            <input type="radio" name="radio" id="female" value="{{ i.gender }}" />
+            <input type="radio" name="radio" id="female"/>
             <label for="female">Female</label>
           </p>
           <p>
-            <input type="radio" name="radio" id="others" value="{{ i.gender }}" />
+            <input type="radio" name="radio" id="others"/>
             <label for="others">Others</label>
         </p></td>
+              {% elif data.gender == "female" %}
+               <td><p>
+          <input type="radio" name="radio" id="male" />
+          <label for="male">Male</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="female" checked/>
+            <label for="female">Female</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="others"/>
+            <label for="others">Others</label>
+        </p></td>
+              {% else %}
+                 <td><p>
+          <input type="radio" name="radio" id="male" />
+          <label for="male">Male</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="female" />
+            <label for="female">Female</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="others" checked/>
+            <label for="others">Others</label>
+        </p></td>
+          {% endif %}
       </tr>
       <tr>
         <td>Branch Name</td>
         <td><label for="bname"></label>
-            <select name="bname" id="bname">
-                <option>value="{{ i.BRANCH.branch_name }}"</option>
-                {% for i in data %}
-              <option value="{{ i.pk }}">{{ i.BRANCH.branch_name }}</option>
+            <select name="bname" id="bname" value="{{ data.branch_name }}" required>
+
+                {% for i in data2 %}
+              <option value="{{ i.pk }}">{{ i.branch_name }}</option>
                       {% endfor %}
             </select>
       </tr>
       <tr>
         <td>Place</td>
-        <td><label for="bstate"></label>
-          <label for="place"></label>
-        <input type="text" name="place" id="place" value="{{ i.place }}"/></td>
+        <td><label for="place"></label>
+        <input type="text" name="place" id="place" value="{{ data.place }}" required/></td>
       </tr>
       <tr>
-        <td>Post</td>
-        <td><label for="bcountry"></label>
+        <td>District</td>
+        <td>
           <label for="post"></label>
-        <input type="text" name="post" id="post" value="{{ i.country }}"/></td>
+        <input type="text" name="district" id="district" value="{{ data.district }}" required/></td>
       </tr>
       <tr>
         <td>Pin</td>
-        <td><label for="bpin"></label>
+        <td>
           <label for="pin"></label>
-        <input type="text" name="pin" id="pin" value="{{ i.pin }}"/></td>
+        <input type="text" name="pin" id="pin" value="{{ data.pin }}" required/></td>
+      </tr>
+          <tr>
+        <td>State</td>
+        <td><label for="place"></label>
+        <input type="text" name="state" id="state" value="{{ data.state }}" required/></td>
       </tr>
       <tr>
         <td>Phone No</td>
         <td><label for="phone"></label>
-        <input type="text" name="phone" id="phone" value="{{ i.phone }}"/></td>
+        <input type="text" name="phone" id="phone" value="{{ data.phone }}" required/></td>
       </tr>
       <tr>
         <td>Image</td>
         <td><label for="image"></label>
-        <input type="file" name="image" id="image" value="{{ i.profile_img }}"/></td>
+            <img src="{{ data.profile_img }}" height="60px" width="60px"/>
+        <input type="file" name="image" id="image" value="{{ data.profile_img }}" required/></td>
       </tr>
       <tr>
         <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="UPDATE" />
+          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
         </div></td>
-      </tr>{% endfor %}
+      </tr>
     </table>
   </div>
 </form>
+         <script>
+    function validate(){
+        var letters = /^[A-Za-z ]+$/;
+        var cate=document.getElementById('mname');
+        if(!cate.value.match(letters))
+      {
+      alert('Manager name should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z]+$/;
+        var catm=document.getElementById('place');
+        if(!catm.value.match(letters))
+      {
+      alert('Place should be alphabet only');
+      return false;
+      }
+        var letters = /^[A-Za-z ]+$/;
+        var catv=document.getElementById('district');
+        if(!catv.value.match(letters))
+      {
+      alert('District should be alphabet only');
+      return false;
+      }
+        var numbers = /^\d{6}$/;
+        var catp=document.getElementById('pin');
+        if(!catp.value.match(numbers))
+        {
+            alert('Pin should be numbers only');
+            return false;
+        }
+        var letters = /^[A-Za-z]+$/;
+        var catd=document.getElementById('state');
+        if(!catd.value.match(letters))
+      {
+      alert('State should be alphabet only');
+      return false;
+      }
+
+        var numbers = /^\d{10}$/;
+        var cati=document.getElementById('phone');
+        if(!cati.value.match(numbers))
+        {
+            alert('Phone No. should be numbers only');
+
+        return false;
+        }
+        return true;
+        }
+
+    </script>
 {% endblock %}
 </body>
 </html>
