@@ -8,59 +8,56 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
+    <h1 align="center">Create Branch</h1>
+    <div class="container">
 <form id="form1" name="form1" method="post" action="/myapp/adm_add_branch_post/" onsubmit="return validate()"> {% csrf_token %}
-  <h1 align="center">Create Branch</h1>
-  <div class="contact"  align="center">
-    <table>
 
-      <tr>
-        <td>Branch Name</td>
-        <td><label for="branchnames"></label>
-        <input type="text" name="branchname" id="branchname" required/></td>
-      </tr>
-      <tr>
-        <td>Place</td>
-        <td><label for="bplace"></label>
-        <input type="text" name="bplace" id="bplace" required/></td>
-      </tr>
-      <tr>
-        <td>District</td>
-        <td><label for="bdistrict"></label>
-        <input type="text" name="bdistrict" id="bdistrict" required/></td>
-      </tr>
-      <tr>
-        <td>State</td>
-        <td><label for="bstate"></label>
-        <input type="text" name="bstate" id="bstate" required/></td>
-      </tr>
-      <tr>
-        <td>Country</td>
-        <td><label for="bcountry"></label>
-        <input type="text" name="bcountry" id="bcountry" required/></td>
-      </tr>
-      <tr>
-        <td>Pin</td>
-        <td><label for="bpin"></label>
-        <input type="text" name="bpin" id="bpin" required/></td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td><label for="bemail"></label>
-        <input type="email" name="bemail" id="bemail" required/></td>
-      </tr>
-      <tr>
-        <td>Phone No</td>
-        <td><label for="bphone"></label>
-        <input type="text" name="bphone" id="bphone" required/></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="ADD" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
-</form>
+    <div class="form-group">
+      <label for="productname">Branch Name :</label>
+      <input type="text" class="form-control" id="branchname" placeholder="Enter branch name" name="branchname" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="place">Place :</label>
+      <input type="text" class="form-control" id="bplace" placeholder="Enter Place" name="bplace" required>
+    </div>
+
+     <div class="form-group">
+      <label for="bdistrict">District :</label>
+      <input type="text" class="form-control" id="bdistrict" placeholder="Enter District" name="bdistrict" required>
+     </div>
+     <div class="form-group">
+      <label for="bstate">State :</label>
+      <input type="text" class="form-control" id="bstate" placeholder="Enter State" name="bstate" required>
+     </div>
+     <div class="form-group">
+      <label for="bcountry">Country :</label>
+      <input type="text" class="form-control" id="bcountry" placeholder="Enter Country" name="bcountry" required>
+      </div>
+      <div class="form-group">
+      <label for="bpin">Pin Code :</label>
+      <input type="text" class="form-control" id="bpin" placeholder="Enter Pin Code" name="bpin" required>
+      </div>
+
+      <div class="form-group">
+      <label for="bemail">Email Id :</label>
+      <input type="email" class="form-control" id="bemail" placeholder="Enter Email Id" name="bemail" required>
+      </div>
+      <div class="form-group">
+      <label for="bphone">Phone No :</label>
+      <input type="text" class="form-control" id="bphone" placeholder="Enter Phone No" name="bphone" required>
+      </div>
+
+    <div align="center">
+
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </div>
+  </form>
+</div>
+
+
+
      <script>
     function validate(){
         var letters = /^[A-Za-z ]+$/;
