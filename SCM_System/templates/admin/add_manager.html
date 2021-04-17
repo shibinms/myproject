@@ -8,26 +8,23 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
+      <h1 align="center">Add Manager</h1>
+    <div class="container">
 <form action="/myapp/adm_add_manager_post/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
-  <h1 align="center">Add Manager</h1>
-  <div align="center">
-    <table width="391" border="0">
-      <tr>
-        <td width="176">Manager Name</td>
-        <td width="205"><label for="mname"></label>
-        <input type="text" name="mname" id="mname" required />
-      </tr>
-      <tr>
-        <td>Date of Birth</td>
-        <td>
-          <label for="mdob"></label>
-        <input type="date" name="mdob" id="mdob" required/></td>
-      </tr>
-      <tr>
-        <td height="92">Gender</td>
-        <td><p>
+
+    <div class="form-group">
+      <label for="mname">Manager Name :</label>
+      <input type="text" class="form-control" id="mname" placeholder="Enter manager name" name="mname" required>
+    </div>
+    <div class="form-group">
+      <label for="mdob">Date of Birth :</label>
+      <input type="date" class="form-control" id="mdob" placeholder="Enter Date of Birth" name="mdob" required>
+    </div>
+        <div class="form-group">
+      <label for="gender">Gender :</label>
+            <p>
           <input type="radio" name="radio" id="male" value="male"/>
-          <label for="male">Male</label> 
+          <label for="male">Male</label>
           </p>
           <p>
             <input type="radio" name="radio" id="female" value="female" />
@@ -36,65 +33,58 @@
           <p>
             <input type="radio" name="radio" id="others" value="others" />
             <label for="others">Others</label>
-        </p></td>
-      </tr>
-      <tr>
-        <td>Branch Name</td>
-        <td><label for="bname"></label>
-            <select name="bname" id="bname">
+        </p>
+    </div>
+        <div class="form-group">
+         <label for="bname">Branch Name :</label>
+            <select class="form-control" name="bname" id="bname" required>
                 {% for i in data %}
               <option value="{{ i.pk }}">{{ i.branch_name }}</option>
                       {% endfor %}
-        </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Place</td>
-        <td>
-          <label for="place"></label>
-        <input type="text" name="place" id="place" required/></td>
-      </tr>
-      <tr>
-        <td>District</td>
-        <td>
-          <label for="district"></label>
-        <input type="text" name="district" id="district" required/></td>
-      </tr>
-    <tr>
-        <td>State</td>
-        <td>
-          <label for="state"></label>
-        <input type="text" name="state" id="state" required/></td>
-      </tr>
-      <tr>
-        <td>Pin</td>
-        <td>
-          <label for="pin"></label>
-        <input type="text" name="pin" id="pin" required/></td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td><label for="email"></label>
-        <input type="email" name="email" id="email" required/>
-      </tr>
-      <tr>
-        <td>Phone No</td>
-        <td><label for="phone"></label>
-        <input type="text" name="phone" id="phone" required/></td>
-      </tr>
-      <tr>
-        <td>Image</td>
-        <td><label for="image"></label>
-        <input type="file" name="image" id="image" required/>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="ADD" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
-</form>
+            </select>
+        </div>
+
+
+    <div class="form-group">
+      <label for="place">Place :</label>
+      <input type="text" class="form-control" id="place" placeholder="Enter Place" name="place" required>
+    </div>
+
+     <div class="form-group">
+      <label for="district">District :</label>
+      <input type="text" class="form-control" id="district" placeholder="Enter District" name="district" required>
+     </div>
+     <div class="form-group">
+      <label for="state">State :</label>
+      <input type="text" class="form-control" id="state" placeholder="Enter State" name="state" required>
+     </div>
+
+      <div class="form-group">
+      <label for="pin">Pin Code :</label>
+      <input type="text" class="form-control" id="pin" placeholder="Enter Pin Code" name="pin" required>
+      </div>
+
+      <div class="form-group">
+      <label for="email">Email Id :</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter Email Id" name="email" required>
+      </div>
+      <div class="form-group">
+      <label for="phone">Phone No :</label>
+      <input type="text" class="form-control" id="phone" placeholder="Enter Phone No" name="phone" required>
+      </div>
+      <div class="form-group">
+      <label for="image">Image :</label>
+      <input type="file" class="form-control" id="image" name="image" required>
+      </div>
+
+    <div align="center">
+
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </div>
+  </form>
+</div>
+
+
      <script>
     function validate(){
         var letters = /^[A-Za-z ]+$/;
