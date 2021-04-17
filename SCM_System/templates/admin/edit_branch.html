@@ -8,53 +8,57 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
+      <h1 align="center">Edit Branch</h1>
+<div class="container">
 <form id="form1" name="form1" method="post" action="/myapp/adm_update_branch/" onsubmit="return validate()"> {% csrf_token %}
-  <h1 align="center">Edit Branch</h1>
-  <div align="center">
-    <table width="200" border="0">
-      <tr>
-        <td>Branch Name</td>
-        <td><label for="branchname"></label>
-        <input type="text" name="branchname" id="branchname" value="{{ data.branch_name }}" required/></td>
-      </tr>
-      <tr>
-        <td>Place</td>
-        <td><label for="bplace"></label>
-        <input type="text" name="bplace" id="bplace" value="{{ data.place }}" required/></td>
-      </tr>
-      <tr>
-        <td>District</td>
-        <td><label for="bdistrict"></label>
-        <input type="text" name="bdistrict" id="bdistrict" value="{{ data.district }}" required/></td>
-      </tr>
-      <tr>
-        <td>State</td>
-        <td><label for="bstate"></label>
-        <input type="text" name="bstate" id="bstate" value="{{ data.state }}" required/></td>
-      </tr>
-      <tr>
-        <td>Country</td>
-        <td><label for="bcountry"></label>
-        <input type="text" name="bcountry" id="bcountry" value="{{ data.country }}" required/></td>
-      </tr>
-      <tr>
-        <td>Pin</td>
-        <td><label for="bpin"></label>
-        <input type="text" name="bpin" id="bpin" value="{{ data.pin }}" required/></td>
-      </tr>
-      <tr>
-        <td>Phone No</td>
-        <td><label for="bphone"></label>
-        <input type="text" name="bphone" id="bphone" value="{{ data.phone }}" required/></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
-</form>
+
+
+
+    <div class="form-group">
+      <label for="productname">Branch Name :</label>
+      <input type="text" class="form-control" id="branchname" placeholder="Enter branch name" name="branchname" value="{{ data.branch_name }}" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="place">Place :</label>
+      <input type="text" class="form-control" id="bplace" placeholder="Enter Place" name="bplace" value="{{ data.place }}" required>
+    </div>
+
+     <div class="form-group">
+      <label for="bdistrict">District :</label>
+      <input type="text" class="form-control" id="bdistrict" placeholder="Enter District" name="bdistrict" value="{{ data.district }}" required>
+     </div>
+     <div class="form-group">
+      <label for="bstate">State :</label>
+      <input type="text" class="form-control" id="bstate" placeholder="Enter State" name="bstate" value="{{ data.state }}" required>
+     </div>
+     <div class="form-group">
+      <label for="bcountry">Country :</label>
+      <input type="text" class="form-control" id="bcountry" placeholder="Enter Country" name="bcountry" value="{{ data.country }}" required>
+      </div>
+      <div class="form-group">
+      <label for="bpin">Pin Code :</label>
+      <input type="text" class="form-control" id="bpin" placeholder="Enter Pin Code" name="bpin" value="{{ data.pin }}" required>
+      </div>
+
+      <div class="form-group">
+      <label for="bemail">Email Id :</label>
+      <input type="email" class="form-control" id="bemail" placeholder="Enter Email Id" name="bemail" value="{{ data.email }}" required>
+      </div>
+      <div class="form-group">
+      <label for="bphone">Phone No :</label>
+      <input type="text" class="form-control" id="bphone" placeholder="Enter Phone No" name="bphone" value="{{ data.phone }}" required>
+      </div>
+
+    <div align="center">
+
+    <button type="submit" class="btn btn-outline-primary">Update</button>
+    </div>
+  </form>
+</div>
+
+
      <script>
     function validate(){
         var letters = /^[A-Za-z ]+$/;
