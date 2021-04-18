@@ -25,7 +25,7 @@
         <td width="49">Gender</td>
         <td width="85">Date of Birth</td>
         <td width="74">Address</td>
-        <td width="109">Branch Name</td>
+        <td width="109">Branch Id</td>
         <td width="45">Image</td>
         <td width="68">&nbsp;</td>
       </tr>
@@ -36,7 +36,7 @@
         <td>{{ i.gender }}</td>
         <td>{{ i.dob }}</td>
         <td>{{ i.place }},{{ i.district }}, {{ i.state }}, {{ i.pin }}, {{ i.email }}, {{ i.phone }}</td>
-        <td>{{ i.BRANCH_id}}</td>
+        <td>{{ i.BRANCH.branch_name}}</td>
         <td><img src="{{ i.profile_img }}" height="60px" width="60px"/></td>
         <td><p><a href="/myapp/adm_edit_manager/{{ i.pk }}">Edit</a></p>
         <p><a href="/myapp/adm_del_manager/{{ i.pk }}">Delete</a></p></td>
