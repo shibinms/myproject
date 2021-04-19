@@ -8,164 +8,104 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form action="/myapp/adm_update_manager/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
-  <h1 align="center">Edit Manager</h1>
-  <div align="center">
-    <table width="391" border="0">
-      <tr>
-        <td width="176">Manager Name</td>
-        <td width="205"><label for="mname"></label>
-        <input type="text" name="mname" id="mname" value="{{ data.manager_name }}"/>
-      </tr>
-      <tr>
-        <td>Date of Birth</td>
-        <td><label for="date"></label>
-        <input type="date" name="date" id="date" value="{{ data.dob }}" required/></td>
-      </tr>
-      <tr>
-        <td height="92">Gender</td>
-          {% if data.gender == 'male' %}
-        <td><p>
-          <input type="radio" name="radio" id="male" checked/>
-          <label for="male">Male</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="female"/>
-            <label for="female">Female</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="others"/>
-            <label for="others">Others</label>
-        </p></td>
-              {% elif data.gender == "female" %}
-               <td><p>
-          <input type="radio" name="radio" id="male" />
-          <label for="male">Male</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="female" checked/>
-            <label for="female">Female</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="others"/>
-            <label for="others">Others</label>
-        </p></td>
-              {% else %}
-                 <td><p>
-          <input type="radio" name="radio" id="male" />
-          <label for="male">Male</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="female" />
-            <label for="female">Female</label>
-          </p>
-          <p>
-            <input type="radio" name="radio" id="others" checked/>
-            <label for="others">Others</label>
-        </p></td>
-          {% endif %}
-      </tr>
-      <tr>
-        <td>Branch Name</td>
-        <td><label for="bname"></label>
-            <select name="bname" id="bname" value="{{ data.branch_name }}" required>
+    <h1 align="center">Edit Manager</h1>
+    <div class="container">
+<form action="/myapp/adm_update_manager/" method="post" enctype="multipart/form-data" name="form1" id="form1"> {% csrf_token %}
 
-                {% for i in data2 %}
+
+    <div class="form-group">
+      <label for="mname">Manager Name :</label>
+      <input type="text" class="form-control" id="mname" placeholder="Enter manager name" name="mname" value="{{ data.manager_name }}" required>
+    </div>
+    <div class="form-group">
+      <label for="mdob">Date of Birth :</label>
+      <input type="date" class="form-control" id="date" placeholder="Enter Date of Birth" name="date" value="{{ data.dob }}" required>
+    </div>
+        <div class="form-group">
+      <label for="gender">Gender :</label>
+          {% if data.gender == 'male' %}
+        <p>
+          <input type="radio" name="radio" id="male" value="male" checked/>
+          <label for="male">Male</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="female" value="female"/>
+            <label for="female">Female</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="others" value="others"/>
+            <label for="others">Others</label>
+        </p>
+              {% elif data.gender == "female" %}
+               <p>
+          <input type="radio" name="radio" id="male" value="male" />
+          <label for="male">Male</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="female" value="female" checked/>
+            <label for="female">Female</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="others" value="others"/>
+            <label for="others">Others</label>
+        </p>
+              {% else %}
+                 <p>
+          <input type="radio" name="radio" id="male" value="male" />
+          <label for="male">Male</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="female" value="female" />
+            <label for="female">Female</label>
+          </p>
+          <p>
+            <input type="radio" name="radio" id="others" value="others" checked/>
+            <label for="others">Others</label>
+        </p>
+          {% endif %}
+      </div>
+      <tr>
+        <div class="form-group">
+        <label for="bname">Branch Name :</label>
+        <select class="form-control" name="bname" id="bname" value="{{ data.branch_name }}" required>
+              {% for i in data2 %}
               <option value="{{ i.pk }}">{{ i.branch_name }}</option>
                       {% endfor %}
             </select>
-      </tr>
-      <tr>
-        <td>Place</td>
-        <td><label for="place"></label>
-        <input type="text" name="place" id="place" value="{{ data.place }}" required/></td>
-      </tr>
-      <tr>
-        <td>District</td>
-        <td>
-          <label for="post"></label>
-        <input type="text" name="district" id="district" value="{{ data.district }}" required/></td>
-      </tr>
-      <tr>
-        <td>Pin</td>
-        <td>
-          <label for="pin"></label>
-        <input type="text" name="pin" id="pin" value="{{ data.pin }}" required/></td>
-      </tr>
-          <tr>
-        <td>State</td>
-        <td><label for="place"></label>
-        <input type="text" name="state" id="state" value="{{ data.state }}" required/></td>
-      </tr>
-      <tr>
-        <td>Phone No</td>
-        <td><label for="phone"></label>
-        <input type="text" name="phone" id="phone" value="{{ data.phone }}" required/></td>
-      </tr>
-      <tr>
-        <td>Image</td>
-        <td><label for="image"></label>
-            <img src="{{ data.profile_img }}" height="60px" width="60px"/>
-        <input type="file" name="image" id="image" value="{{ data.profile_img }}" required/></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
-</form>
-         <script>
-    function validate(){
-        var letters = /^[A-Za-z ]+$/;
-        var cate=document.getElementById('mname');
-        if(!cate.value.match(letters))
-      {
-      alert('Manager name should be alphabet only');
-      return false;
-      }
-        var letters = /^[A-Za-z]+$/;
-        var catm=document.getElementById('place');
-        if(!catm.value.match(letters))
-      {
-      alert('Place should be alphabet only');
-      return false;
-      }
-        var letters = /^[A-Za-z ]+$/;
-        var catv=document.getElementById('district');
-        if(!catv.value.match(letters))
-      {
-      alert('District should be alphabet only');
-      return false;
-      }
-        var numbers = /^\d{6}$/;
-        var catp=document.getElementById('pin');
-        if(!catp.value.match(numbers))
-        {
-            alert('Pin should be numbers only');
-            return false;
-        }
-        var letters = /^[A-Za-z]+$/;
-        var catd=document.getElementById('state');
-        if(!catd.value.match(letters))
-      {
-      alert('State should be alphabet only');
-      return false;
-      }
+        </div>
+         <div class="form-group">
+      <label for="place">Place :</label>
+      <input type="text" class="form-control" id="place" placeholder="Enter Place" name="place" value="{{ data.place }}" required>
+    </div>
 
-        var numbers = /^\d{10}$/;
-        var cati=document.getElementById('phone');
-        if(!cati.value.match(numbers))
-        {
-            alert('Phone No. should be numbers only');
+     <div class="form-group">
+      <label for="district">District :</label>
+      <input type="text" class="form-control" id="district" placeholder="Enter District" name="district" value="{{ data.district }}" required>
+     </div>
+     <div class="form-group">
+      <label for="state">State :</label>
+      <input type="text" class="form-control" id="state" placeholder="Enter State" name="state" value="{{ data.state }}" required>
+     </div>
 
-        return false;
-        }
-        return true;
-        }
+      <div class="form-group">
+      <label for="pin">Pin Code :</label>
+      <input type="text" class="form-control" id="pin" placeholder="Enter Pin Code" name="pin" value="{{ data.pin }}" required>
+      </div>
+      <div class="form-group">
+      <label for="phone">Phone No :</label>
+      <input type="text" class="form-control" id="phone" placeholder="Enter Phone No" name="phone" value="{{ data.phone }}" required>
+      </div>
+      <div class="form-group">
+      <label for="image">Image :</label>
+      <input type="file" class="form-control" id="image" name="image" required>
+      </div>
+          <div> </div>
+    <div align="center">
 
-    </script>
+    <button type="submit" class="btn btn-outline-primary">Update</button>
+    </div>
+  </form>
+</div>
 {% endblock %}
 </body>
 </html>
