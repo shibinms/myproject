@@ -8,52 +8,43 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
+     <h1 align="center">Edit Product</h1>
+<div class="container">
 <form action="/myapp/adm_update_product/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validate()"> {% csrf_token %}
-  <h1 align="center">Edit Product</h1>
-  <div align="center">
-    <table width="386" border="0">
-      <tr>
-        <td width="89">Product Name</td>
-        <td width="287"><label for="productname"></label>
-        <input type="text" name="productname" id="productname" value="{{ data.product_name }}" required/></td>
-      </tr>
-      <tr>
-        <td>Type of Product</td>
-        <td>
-          <label for="type"></label>
-          <select name="type" id="type" value="{{ data.product_type }}" required>
-              <option>Trouser</option>
-              <option>Shirt</option>
-              <option>Kurta</option>
 
-        </select></td>
-      </tr>
-      <tr>
-        <td>Price</td>
-        <td>
-          <label for="price"></label>
-        <input type="number" name="price" id="price" value="{{ data.price }}" required/></td>
-      </tr>
-      <tr>
-        <td>Image</td>
-        <td>
-          <label for="image"></label>
-        <input type="file" name="image" id="image" value="{{ data.image }}" required/></td>
-      </tr>
-      <tr>
-        <td>Description</td>
-        <td>
-          <label for="description"></label>
-        <textarea name="description" id="description" cols="45" rows="5" value="{{ data.description }}" required></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" class="btn btn-outline-primary" name="add" id="add" value="UPDATE" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
-</form>
+
+<div class="form-group">
+      <label for="productname">Product Name :</label>
+      <input type="text" class="form-control" id="productname" placeholder="Enter product name" name="productname" value="{{ data.product_name }}" required>
+    </div>
+        <div class="form-group">
+      <label for="type">Type of Product :</label>
+            <select class="form-control" name="type" id="type" value="{{ data.product_type }}" required>
+              <option>Shirt</option>
+              <option>Trousers</option>
+              <option>Kurta</option>
+            </select>
+    </div>
+
+
+    <div class="form-group">
+      <label for="price">Price :</label>
+      <input type="text" class="form-control" id="price" placeholder="Enter Description" name="price" value="{{ data.price }}" required>
+    </div>
+    <div class="form-group">
+      <label for="img">Image :</label>
+      <input type="file" class="form-control" id="image" name="image" value="{{ data.image }}" required>
+    </div>
+        <div class="form-group">
+      <label for="dsc">Description :</label>
+            <textarea class="form-control" id="description" placeholder="Enter Description" name="description" value="{{ data.description }}" required></textarea>
+    </div>
+    <div align="center">
+
+    <button type="submit" class="btn btn-outline-primary">Update</button>
+    </div>
+  </form>
+</div>
 
 {% endblock %}
 </body>
