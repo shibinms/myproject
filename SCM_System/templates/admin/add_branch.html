@@ -60,35 +60,35 @@
 
      <script>
     function validate(){
-        var letters = /^[A-Za-z ]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var cate=document.getElementById('branchname');
         if(!cate.value.match(letters))
       {
       alert('Branch name should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catm=document.getElementById('bplace');
         if(!catm.value.match(letters))
       {
       alert('Place should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z ]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catv=document.getElementById('bdistrict');
         if(!catv.value.match(letters))
       {
       alert('District should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catd=document.getElementById('bstate');
         if(!catd.value.match(letters))
       {
       alert('State should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z ]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var cat=document.getElementById('bcountry');
         if(!cat.value.match(letters))
         {
