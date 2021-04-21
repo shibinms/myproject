@@ -87,28 +87,28 @@
 
      <script>
     function validate(){
-        var letters = /^[A-Za-z ]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var cate=document.getElementById('mname');
         if(!cate.value.match(letters))
       {
       alert('Manager name should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catm=document.getElementById('place');
         if(!catm.value.match(letters))
       {
       alert('Place should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z ]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catv=document.getElementById('district');
         if(!catv.value.match(letters))
       {
       alert('District should be alphabet only');
       return false;
       }
-        var letters = /^[A-Za-z]+$/;
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
         var catd=document.getElementById('state');
         if(!catd.value.match(letters))
       {
