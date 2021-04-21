@@ -8,38 +8,49 @@
 <body>
 {% extends "index.html" %}
 {% block body %}
-<form id="form1" name="form1" method="post" action="/myapp/adm_send_notification_post/">{% csrf_token %}
-  
-  <div align="center">
+
     <h1>Send Notification</h1>
-    <table width="200" border="1">
-    <tr>
-      <td>Branch Name</td>
-      <td><label for="branch_name"></label>
-        <select name="branch_name" id="branch_name">
+    <div class="container">
+<form id="form1" name="form1" method="post" action="/myapp/adm_send_notification_post/" onsubmit="return validate()">{% csrf_token %}
+  
+        <div class="form-group">
+         <label for="branch_name">Branch Name :</label>
+            <select class="form-control" name="branch_name" id="branch_name" required>
                 {% for i in data %}
               <option value="{{ i.pk }}">{{ i.branch_name }}</option>
                       {% endfor %}
-        </select></td>
-    </tr>
-    <tr>
-      <td>Tittle</td>
-      <td><label for="title"></label>
-        <input type="text" name="title" id="title" /></td>
-    </tr>
-    <tr>
-      <td>Message</td>
-      <td><label for="message"></label>
-        <textarea name="message" id="message" cols="45" rows="5"></textarea></td>
-    </tr>
-    <tr>
-      <td colspan="2"><div align="center">
-        <input type="submit" name="send" id="send" value="SEND" />
-        <input type="submit" name="view" id="view" value="VIEW" />
-      </div></td>
-      </tr>
-  </table></div>
-</form>
+            </select>
+        </div>
+    <div class="form-group">
+      <label for="title">Tittle :</label>
+      <input type="text" class="form-control" id="title" placeholder="Enter Tittle" name="title" required>
+    </div>
+        <div class="form-group">
+      <label for="dsc">Message :</label>
+            <textarea class="form-control" id="message" placeholder="Enter Message" name="message" cols="45" rows="5" required></textarea>
+    </div>
+
+    <div align="center">
+
+        <button type="submit" class="btn btn-outline-primary">Send</button>
+    </div>
+  </form>
+</div>
+         <script>
+    function validate(){
+        var letters = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
+        var cate=document.getElementById('title');
+        if(!cate.value.match(letters))
+      {
+      alert('title should be alphabet only');
+      return false;
+      }
+
+
+        return true;
+        }
+
+    </script>
 {% endblock %}
 </body>
 </html>
