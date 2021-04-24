@@ -6,20 +6,22 @@
 </head>
 
 <body>
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+{% extends "manager_home.html" %}
+{% block body %}
+<form action="/myapp/manager_add_staff_post/" method="post" enctype="multipart/form-data" name="form1" id="form1"> {% csrf_token %}
   <h1 align="center">Add Staff</h1>
   <div align="center">
     <table width="391" border="0">
       <tr>
         <td width="176">Staff Name</td>
-        <td width="205"><label for="mname"></label>
-        <input type="text" name="mname" id="mname" />          <label for="branchname"></label></td>
+        <td width="205"><label for="sname"></label>
+        <input type="text" name="sname" id="sname" /></td>
       </tr>
       <tr>
         <td>Date of Birth</td>
-        <td><label for="bplace"></label>
-          <label for="mdob"></label>
-        <input type="text" name="mdob" id="mdob" /></td>
+        <td>
+          <label for="dob"></label>
+        <input type="date" name="dob" id="dob" /></td>
       </tr>
       <tr>
         <td height="92">Gender</td>
@@ -38,33 +40,42 @@
       </tr>
       <tr>
         <td>Position</td>
-        <td><label for="bname"></label>
-          <label for="position"></label>
+        <td><label for="position"></label>
           <select name="position" id="position">
-          </select><label for="bdistrict"></label></td>
+              <option value="sales_staff">Sales</option>
+              <option value="production_staff">Production</option>
+          </select></td>
       </tr>
       <tr>
         <td>Place</td>
-        <td><label for="bstate"></label>
+        <td>
           <label for="place"></label>
         <input type="text" name="place" id="place" /></td>
       </tr>
       <tr>
         <td>Post</td>
-        <td><label for="bcountry"></label>
-          <label for="post"></label>
+        <td><label for="post"></label>
         <input type="text" name="post" id="post" /></td>
+      </tr>
+        <tr>
+        <td>District</td>
+        <td><label for="district"></label>
+        <input type="text" name="district" id="district" /></td>
+      </tr>
+        <tr>
+        <td>State</td>
+        <td><label for="state"></label>
+        <input type="text" name="state" id="state" /></td>
       </tr>
       <tr>
         <td>Pin</td>
-        <td><label for="bpin"></label>
-          <label for="pin"></label>
+        <td><label for="pin"></label>
         <input type="text" name="pin" id="pin" /></td>
       </tr>
       <tr>
         <td>Email</td>
         <td><label for="email"></label>
-        <input type="text" name="email" id="email" />          <label for="bemail"></label></td>
+        <input type="text" name="email" id="email" /></td>
       </tr>
       <tr>
         <td>Phone No</td>
@@ -74,7 +85,7 @@
       <tr>
         <td>Image</td>
         <td><label for="image"></label>
-        <input type="file" name="image" id="image" />          <label for="bphone"></label></td>
+        <input type="file" name="image" id="image" /></td>
       </tr>
       <tr>
         <td colspan="2"><div align="center">
@@ -84,5 +95,6 @@
     </table>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
