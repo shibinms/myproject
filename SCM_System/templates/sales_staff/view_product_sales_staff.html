@@ -6,15 +6,17 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
+{% extends "sales_home.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="/myapp/sales_product_name_search/">{% csrf_token %}
   <div align="center">
     <h1>View Product</h1>
-    <table width="473" border="1">
+    <table class="table table-hover">
       <tr>
         <td colspan="6"> Product Name
-          <label for="bname search"></label>
-        <input type="text" name="bname search" id="bname search" />
-        <input type="submit" name="search" id="search" value="Search" /></td>
+          <label for="productnamesearch"></label>
+        <input type="text" class="input-group input-group-sm" name="productnamesearch" id="productnamesearch" />
+        <input type="submit" class="btn btn-default" name="search" id="search" value="Search" /></td>
       </tr>
       <tr>
         <td width="36">Sl.No</td>
@@ -23,18 +25,19 @@
         <td width="40">Price</td>
         <td width="91">Description</td>
         <td width="58">Image</td>
-      </tr>
+      </tr>{% for i in data %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.product_name }}</td>
+        <td>{{ i.product_type }}</td>
+        <td>{{ i.price }}</td>
+        <td>{{ i.description }}</td>
+        <td><img src="{{ i.image }}" height="60px" width="60px"/></td>
+      </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
