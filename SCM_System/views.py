@@ -7,7 +7,7 @@ from django.shortcuts import render,redirect
 
 # Create your views here.
 from SCM_System.models import branch, login, manager, raw_material, product, notification, request_master, staff, \
-    production, stock, user, raw_material_used, cart, sales_master
+    production, stock, user, raw_material_used, cart, sales_master, sales_sub
 
 
 def lognindex(request):
@@ -314,7 +314,7 @@ def sales_sales_entry_post(request):
 
     if save=="Save":
         cemail = request.POST['cemail']
-        cust_phn = request.POST['qty']
+        cust_phn = request.POST['phone']
         request.session['cust_email'] = cemail
         request.session['cust_phn'] = cust_phn
         res = product.objects.all()
@@ -344,10 +344,31 @@ def sales_sales_entry_post(request):
         discount = request.POST['discount']
         total = request.session['tot']
 
-        qry = sales_master(date=date.today(), discount=discount, amount=total, user_email=user_email, user_phone=user_phone)
-        qry.save()
 
-          # for i in cart_obj:
+
+        qry = sales_master(date=date.today(), discount=discount, amount=total, status='Paid', user_email=user_email, user_phone=user_phone)
+        sss=qry.save()
+        sales_master_id = sales_master.objects.latest('id')
+        sid = sales_master_id.id
+
+        print(sid)
+
+
+        for i in cart_obj:
+            pid = i.product_id
+            qty = i.quantity
+
+            qry2 = sales_sub(quantity=qty, PRODUCT_id=pid, SALES_MASTER_id=sid)
+            qry2.save()
+        cartobj = cart.objects.all()
+        cartobj.delete()
+
+
+        return sales_view_sales_report_common(request)
+
+
+
+
 
 
 
@@ -369,8 +390,10 @@ def sales_del_cart(request,id):
     return render(request, "sales_staff/sales_entry.html",{'data': res, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn'],'data2': ar, 'total': tot})
 
 def sales_view_sales_report_common(request):
+    res = sales_master.objects.all()
 
-    return render(request, "sales_staff/view_sales_report_common.html")
+
+    return render(request, "sales_staff/view_sales_report_common.html", {'data':res})
 
 def sales_view_product_sales_staff(request):
     res = product.objects.all()
@@ -383,10 +406,17 @@ def sales_view_profile(request):
     print(aa)
 
     return render(request, "sales_staff/view_profile_sales_staff.html", {'data':res})
+print("hello")
+def sales_view_sales_details(request,id):
+    res2 = sales_sub.objects.filter(SALES_MASTER=id)
+    print("hello")
+    print(res2)
+    res = sales_master.objects.get(pk=id)
 
-def sales_view_sales_details(request):
+    print(res)
 
-    return render(request, "sales_staff/view_sales_details.html")
+    return render(request, "sales_staff/view_sales_details.html", {'data2': res2, 'data': res})
+
 def sales_product_name_search(request):
     if request.method=="POST":
         product_name=request.POST['productssearch']
@@ -463,6 +493,14 @@ def production_view_production_report(request):
 def production_request_material_production(request):
     return render(request, "production staff/request_material_production.html")
 
+def production_product_name_search(request):
+    if request.method=="POST":
+        product_name=request.POST['productsearch']
+        print(product_name)
+        comb_obj=production.objects.filter(product_name__contains=product_name)
+        return render(request,"production staff/view_production_report_production_staff.html", {'data': comb_obj})
+
+
 def manager_home(request):
 
     return render(request,"manager_home.html")
@@ -495,16 +533,17 @@ def manager_add_staff_post(request):
     password=random.randint(0000,9999)
 
     aa=login.objects.get(id=request.session['lid'])
+    #aaa=aa.id
     print(aa)
 
     bb=manager.objects.get(LOGIN=aa)
+    #bbb=bb.id
     print(bb)
-    bid=bb.BRANCH.id
-
+    bids=bb.BRANCH.id
+    branch_id=branch(id=bids)
+    branch_id.save()
     log=login(username=email, password=password, user_type=position)
     log.save()
-    branch_id=branch(id=bid)
-    branch_id.save()
     #bid = branch.objects.get(pk=staff_name)
     qry = staff(staff_name=staff_name, dob=dob, gender=gender, position=position, place=place, post=post, district=district, state=state, pin=pin, email=email, phone=phone,  profile_img=image, BRANCH=branch_id, LOGIN=log)
     qry.save()
@@ -527,20 +566,47 @@ def manager_update_staff(request):
     state=request.POST['state']
     pin = request.POST['pin']
     phone=request.POST['phone']
-    myfile=request.FILES['image']
-    fs = FileSystemStorage()
-    filename=fs.save(myfile.name, myfile)
-    image = fs.url(filename)
+
 
     #bid = branch.objects.get(pk=branch_name)
 
-    res=staff.objects.filter(pk=request.session['upid']).update(staff_name=staff_name, dob=dob, gender=gender, position=position, place=place, post=post, district=district, state=state, pin=pin, phone=phone, profile_img=image)
+    res=staff.objects.filter(pk=request.session['upid']).update(staff_name=staff_name, dob=dob, gender=gender, position=position, place=place, post=post, district=district, state=state, pin=pin, phone=phone)
 
-    return redirect("myapp:manager_view_staff")
+    return manager_view_staff(request)
 
 def manager_del_staff(request,id):
     qry=staff.objects.get(pk=id)
     qry.delete()
-    return manager_view_staff(request)
+    return redirect("myapp:manager_view_staff")
+
+def manager_view_profile(request):
+    aa=login.objects.get(id=request.session['lid'])
+    print("aa=",aa)
+    res = manager.objects.get(LOGIN=aa)
+    print(aa)
+
+    return render(request, "manager/view_profile-manager.html", {'data': res})
+
+def manager_view_products(request):
+    res = product.objects.all()
+
+    return render(request, "manager/view_product_manager.html", {'data': res})
+
+def manager_staff_name_search(request):
+    if request.method=="POST":
+        staff_name=request.POST['staff_search']
+        print(staff_name)
+        comb_obj=staff.objects.filter(staff_name__contains=staff_name)
+        return render(request,"manager/view_staff.html", {'data': comb_obj})
+
+def manager_product_name_search(request):
+    if request.method=="POST":
+        product_name=request.POST['productname']
+        print(product_name)
+        comb_obj=product.objects.filter(product_name__contains=product_name)
+        return render(request,"manager/view_product_manager.html", {'data': comb_obj})
+
+
+
 
 

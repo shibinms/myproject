@@ -51,7 +51,7 @@ urlpatterns = [
     path('sales_view_sales_report_common/',views.sales_view_sales_report_common),
     path('sales_view_product_sales_staff/',views.sales_view_product_sales_staff),
     path('sales_view_profile/',views.sales_view_profile),
-    path('sales_view_sales_details/',views.sales_view_sales_details),
+    path('sales_view_sales_details/<int:id>',views.sales_view_sales_details),
     path('sales_product_name_search/',views.sales_product_name_search),
     path('adm_notification_branch_name_search/',views.adm_notification_branch_name_search),
     path('adm_del_notification/<int:id>',views.adm_del_notification),
@@ -64,13 +64,18 @@ urlpatterns = [
     path('production_update_production_post/',views.production_update_production_post),
     path('production_view_production_report/',views.production_view_production_report),
     path('production_request_material_production/',views.production_request_material_production),
+    path('production_product_name_search/',views.production_product_name_search),
     path('manager_home/',views.manager_home),
     path('manager_add_staff/',views.manager_add_staff),
     path('manager_add_staff_post/',views.manager_add_staff_post),
     path('manager_view_staff/',views.manager_view_staff),
     path('manager_edit_staff/<int:id>',views.manager_edit_staff),
     path('manager_update_staff/',views.manager_update_staff),
-    path('manager_del_staff/<int:id>', views.manager_del_staff)
+    path('manager_del_staff/<int:id>', views.manager_del_staff),
+    path('manager_view_profile/', views.manager_view_profile),
+    path('manager_view_products/', views.manager_view_products),
+    path('manager_staff_name_search/', views.manager_staff_name_search),
+    path('manager_product_name_search/', views.manager_product_name_search)
 
 
 ]
