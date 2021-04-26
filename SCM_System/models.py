@@ -128,7 +128,8 @@ class sales_master(models.Model):
     discount = models.CharField(max_length=50)
     amount = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    USER = models.ForeignKey(user, on_delete=models.CASCADE)
+    user_email = models.CharField(max_length=50)
+    user_phone = models.CharField(max_length=50)
 
 class sales_sub(models.Model):
     quantity = models.CharField(max_length=50)
@@ -139,3 +140,10 @@ class production(models.Model):
     date = (models.DateField(max_length=50))
     stock = models.CharField(max_length=50)
     PRODUCT = models.ForeignKey(product, on_delete=models.CASCADE)
+    #STAFF = models.ForeignKey(staff, on_delete=models.CASCADE)
+
+class cart(models.Model):
+    product_name = (models.CharField(max_length=50))
+    quantity = models.CharField(max_length=50)
+    price = models.CharField(max_length=50)
+    product_id = models.CharField(max_length=50)
