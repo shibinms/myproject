@@ -6,36 +6,32 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
-  <div align="center">
+{% extends "production_home.html" %}
+{% block body %}
     <h1>Update Production</h1>
-    <table width="200" border="0">
-      <tr>
-        <td>Type of Product</td>
-        <td><label for="type"></label>
-          <select name="type" id="type">
-        </select></td>
-      </tr>
-      <tr>
-        <td>Product Name</td>
-        <td><label for="product"></label>
-          <select name="product" id="product">
-        </select></td>
-      </tr>
-      <tr>
-        <td>Quantity</td>
-        <td><label for="quantity"></label>
-          <select name="quantity" id="quantity">
-        </select></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="ADD" />
-        </div></td>
-      </tr>
-    </table>
-    <p>&nbsp;</p>
-  </div>
+          <div class="container">
+    <form id="form1" name="form1" method="post" action="/myapp/production_update_production_post/"> {% csrf_token %}
+        <div class="form-group">
+         <label for="pname">Product Name :</label>
+            <select class="form-control" name="pname" id="pname" required>
+                {% for i in data2 %}
+              <option value="{{ i.pk }}">{{ i.product_name }}</option>
+                      {% endfor %}
+            </select>
+        </div>
+
+ <div class="form-group">
+      <label for="productname">Quantity :</label>
+      <input type="text" class="form-control" id="qty" placeholder="Enter Quantity" name="qty" required>
+    </div>
+
+    <div align="center">
+
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    </div>
+
 </form>
+          </div>
+{% endblock %}
 </body>
 </html>
