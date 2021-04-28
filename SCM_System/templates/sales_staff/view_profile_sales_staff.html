@@ -6,51 +6,47 @@
 </head>
 
 <body>
+{% extends "sales_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <h1 align="center">View Profile
   </h1>
   <div align="center">
-    <table width="299" border="0">
+    <table class="table table-info">
       <tr>
-        <td colspan="2"><div align="center"><img src="" alt="" name="profile" width="112" height="99" id="profile" /></div></td>
+        <td colspan="2"><div align="center"><img src="{{ data.profile_img }}" alt="Profile Image" name="profile" width="112" height="99" id="profile" /></div></td>
       </tr>
       <tr>
-        <td width="143">Name :</td>
-        <td width="146">&nbsp;</td>
+          <td width="143"><b>Name :</b></td>
+        <td width="146" >{{ data.staff_name }}</td>
       </tr>
       <tr>
-        <td>Date of Birth :</td>
-        <td>&nbsp;</td>
+        <td><b>Date of Birth :</b></td>
+        <td>{{ data.dob }}</td>
       </tr>
       <tr>
-        <td>Gender :</td>
-        <td>&nbsp;</td>
+        <td><b>Gender :</b></td>
+        <td>{{ data.gender }}</td>
       </tr>
       <tr>
-        <td>Position :</td>
-        <td>&nbsp;</td>
+        <td><b>Position :</b></td>
+        <td>{{ data.position }}</td>
       </tr>
       <tr>
-        <td>Address :</td>
-        <td>&nbsp;</td>
+        <td><b>Address :</b></td>
+        <td>{{ data.place }},{{ data.post }},{{ data.district }},{{ data.state }},{{ data.pin }}</td>
       </tr>
       <tr>
-        <td>Email :</td>
-        <td>&nbsp;</td>
+        <td><b>Email :</b></td>
+        <td>{{ data.email }}</td>
       </tr>
       <tr>
-        <td>Phone No :</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td height="52" colspan="2"><div align="center">
-          <input type="submit" name="edit" id="edit" value="EDIT" />
-        </div></td>
+          <td><b>Phone No :</b></td>
+        <td>{{ data.phone }}</td>
       </tr>
     </table>
   </div>
-  <p align="center">&nbsp;</p>
-  <p align="center">&nbsp;</p>
 </form>
+{% endblock %}
 </body>
 </html>
