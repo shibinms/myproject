@@ -6,68 +6,101 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
-  <div align="center">
+{% extends "sales_home.html" %}
+{% block body %}
+    <div class="container">
     <h1>Sales Entry</h1>
-    <div align="center">
+<form id="form1" name="form1" method="post" action="/myapp/sales_sales_entry_post/"> {% csrf_token %}
+
+{% if cust_email == "" %}
       <table width="508" border="0">
         <tr>
           <td colspan="3">Sale id : <label>#</label></td>
         </tr>
-        <tr>
-          <td width="248" height="50">Customer Name 
-            <label for="cname"></label>
-          <input type="text" name="cname" id="cname" /></td>
-          <td width="187">Phone 
-            <label for="phone"></label>
-          <input type="text" name="phone" id="phone" /></td>
-          <td width="51"><input type="submit" name="save" id="save" value="SAVE" /></td>
-        </tr>
-      </table>
-    </div>
+          <div class="form-group">
+      <label for="cname">Customer Email :</label>
+      <input type="email" class="form-control" id="cemail" placeholder="Enter Customer Email" value="{{ cust_email }}" name="cemail" required>
+          </div>
+          <div class="form-group">
+      <label for="phone">Phone No :</label>
+      <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone" value="{{ cust_phn }}" required>
+          </div>
     <div align="center">
-      <table width="529" border="0">
-        <tr>
-          <td width="112" height="45">Product          
-            <label for="product"></label>
-            <select name="product" id="product">
-          </select></td>
-          <td width="130" rowspan="2"><div align="center">
-            <input type="submit" name="add" id="add" value="ADD" />
-          </div></td>
-          <td colspan="4" rowspan="2"><table width="271" border="1">
+
+    <input type="submit" name="button" class="btn btn-outline-primary" value="Save"/>
+    </div>
+      {% endif %}
+
+
+        <div class="form-group">
+         <label for="pname">Product Name :</label>
+            <select class="form-control" name="pname" id="pname" required>
+                {% for i in data %}
+              <option value="{{ i.pk }}">{{ i.product_name }}</option>
+                      {% endfor %}
+            </select>
+        </div>
+            <div class="form-group">
+      <label for="qty">Quantity :</label>
+      <input type="text" class="form-control" id="qty" placeholder="Enter Quantity" name="qty">
+          </div>
+    <div align="center">
+
+    <input type="submit" name="button" class="btn btn-outline-primary" value="Add"/>
+    </div>
+      <table class="table table-hover">
+
             <tr>
-              <td width="46"><div align="center">Sl.No</div></td>
-              <td width="71"><div align="center">Product</div></td>
-              <td width="74"><div align="center">Quantity</div></td>
-              <td width="52">&nbsp;</td>
-              </tr>
+              <td><div>Sl.No</div></td>
+              <td><div>Product</div></td>
+              <td><div>Quantity</div></td>
+              <td><div>Price</div></td>
+              <td><div>Amount</div></td>
+              <td>&nbsp;</td>
+              </tr>{% for i in data2 %}
+
             <tr>
-              <td height="69">&nbsp;</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.product_name }}</td>
+                <td>{{ i.quantity }}</td>
+                <td>{{ i.price }}</td>
+                <td>{{ i.amount }}</td>
+              <td><a href="/myapp/sales_del_cart/{{ i.id }}">Remove</a></td>
+              </tr>{% endfor %}
+
+          <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
-              <td><a href="#">Remove</a></td>
+              <td>Total Amount = </td>
+              <td><label>{{ total }}</label></td>
+              <td>&nbsp;</td>
               </tr>
-          </table></td>
+
+        </tr>
+              <tr>
+          <td height="58" colspan="6">
+
+
+                <div class="form-group">
+      <label for="discount">Discount :</label>
+      <input type="text" class="form-control" id="discount" placeholder="Enter Discount" name="discount">
+          </div>
+
+          </td>
         </tr>
         <tr>
-          <td height="58">Quantity
-            <label for="quantity"></label>
-            <select name="quantity2" id="quantity">
-            </select></td>
-        </tr>
-        <tr>
-          <td height="58" colspan="6"><div align="right">Total Amount = <label>####</label></div></td>
-        </tr>
-        <tr>
-          <td height="58" colspan="6"><div align="right">
-            <input type="submit" name="submit" id="submit" value="Submit" />
-          </div></td>
+          <td height="58" colspan="6">
+                <div align="center">
+
+    <input type="submit" name="button" class="btn btn-outline-primary" value="Submit"/>
+    </div>
+          </td>
         </tr>
       </table>
-    </div>
+
     <p align="justify">&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
