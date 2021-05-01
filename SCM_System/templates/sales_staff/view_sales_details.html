@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "sales_home.html" %}
+{% block body %}
+
+<form id="form1" name="form1" method="post" action="/myapp/sales_view_sales_details/"> {% csrf_token %}
+  <div align="center">
+    <h1>Product Details (Sale)</h1>
+
+    <table class="table table-hover">
+      <tr>
+        <td width="13">#</td>
+        <td width="60">Product Name</td>
+        <td width="31">Price</td>
+        <td width="51">Quantity</td>
+        <td width="49">Total</td>
+      </tr>
+        {% for i in data2 %}
+      <tr>
+            <td></td>
+            <td>{{ i.PRODUCT.product_name }}</td>
+            <td>{{ i.PRODUCT.price }}</td>
+            <td>{{ i.quantity }}</td>
+
+            <td>{% widthratio i.PRODUCT.price 1 i.quantity %}</td>
+        {% endfor %}
+
+
+
+
+      </tr>
+      <tr>
+        <td colspan="4"><div align="right">Total Amount : </div></td>
+          <td><label>{{ data.amount }}</label></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+  </div>
+</form>
+{% endblock %}
+</body>
+</html>
