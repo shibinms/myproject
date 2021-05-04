@@ -6,30 +6,32 @@
 </head>
 
 <body>
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <h1 align="center">Allocate Raw Materials</h1>
-  <div align="center">
-    <table width="266" border="0">
-      <tr>
-        <td width="109">Material Name</td>
-        <td width="147"><label for="branchname"></label>
-          <label for="material_name"></label>
-        <input type="text" name="material_name" id="material_name" /></td>
-      </tr>
-      <tr>
-        <td>Quantity</td>
-        <td><label for="bdistrict"></label>
-          <label for="price"></label>
-          <label for="allocated_qty"></label>
-          <input type="text" name="allocated_qty" id="allocated_qty" /></td>
-      </tr>
-      <tr>
-        <td colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="ADD" />
-        </div></td>
-      </tr>
-    </table>
-  </div>
+{% extends "index.html" %}
+{% block body %}
+    <h1 align="center">Allocate Raw Materials</h1>
+    <div class="container">
+<form action="/myapp/adm_allocate_raw_material_post/" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return"> {% csrf_token %}
+
+
+        <p><h3>Materaial Name : <u>{{ data.RAW_MATERIAL.raw_material_name }}</u></h3></p>
+
+
+        <div class="form-group">
+            <label for="place">Quantity :</label>
+            <input type="text" class="form-control" id="allocated_qty" placeholder="Enter Quantity" name="allocated_qty" value="{{ data.quantity }}" required/>
+        </div>
+        <div class="form-group">
+            <label for="place">Narration :</label>
+            <textarea class="form-control" id="narration" placeholder="Narration" name="narration" required></textarea>
+        </div>
+        <p>&nbsp;</p>
+        <div align="center">
+            <input type="submit" class="btn btn-outline-primary" id="add" name="add" value="Add"/>
+        </div>
+
+
 </form>
+    </div>
+{% endblock %}
 </body>
 </html>
