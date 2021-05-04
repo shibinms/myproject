@@ -6,48 +6,57 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
-  <div align="center">
+{% extends "production_home.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="/myapp/production_request_material_post/"> {% csrf_token %}
+
     <h1>Raw Material Request</h1>
-    <table width="339" border="0">
-      <tr>
-        <td width="146">Raw Material
-          <label for="raw_material"></label>
-          <label for="raw_material2"></label>
-          <select name="raw_material" id="raw_material2">
-          </select></td>
-        <td width="116">Quantity
-          <label for="quantity"></label>
-          <select name="quantity" id="quantity">
-        </select></td>
-        <td width="55"><input type="submit" name="add" id="add" value="ADD" /></td>
-      </tr>
+
+
+      <div class="form-group">
+
+          <label for="raw_material">Raw Material :</label>
+          <select name="raw_material" class="form-select" aria-label="Default select example" id="raw_material">
+              {% for i in data %}
+              <option value="{{ i.pk }}">{{ i.raw_material_name }}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div class="form-group">
+
+          <label for="Quantity">Quantity :</label>
+            <input type="text" class="form-control" name="quantity" placeholder="Quantity" id="quantity"/>
+      </div>
+        <p>&nbsp;</p>
+    <div align="center"><input type="submit" name="button" class="btn btn-primary" value="Add"/>
+    </div>
+    <p>&nbsp;</p>
+
+    <table class="table table-hover">
+        <tr><td><b>Sl.No</b></td>
+          <td><b>Material Name</b></td>
+          <td><b>Quantity</b></td>
+          <td><b>Action</b></td>
+        </tr>
+          {% for i in sub %}
+        <tr>
+          <td height="43">{{ forloop.counter }}</td>
+          <td>{{ i.RAW_MATERIAL.raw_material_name }}</td>
+          <td>{{ i.quantity }}</td>
+          <td><a href="/myapp/production_del_cart/{{ i.id }}" class="btn btn-danger">Remove</a></td>
+        </tr>{% endfor %}
+        <tr>
+          <td height="43" colspan="4">    <div align="center">
+
+    <input type="submit" name="button" class="btn btn-outline-primary" value="Submit"/>
+    </div></td>
+        </tr>
     </table>
-    <p align="center">Items :</p>
-    <div align="center">
-      <table width="391" border="1">
-        <tr>
-          <td width="63" height="42"><div align="center">#</div></td>
-          <td width="114"><div align="center">Material Name</div></td>
-          <td width="69"><div align="center">Quantity</div></td>
-          <td width="127"><div align="center"></div></td>
-        </tr>
-        <tr>
-          <td height="43">&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td><div align="center"><a href="#">Remove</a></div></td>
-        </tr>
-        <tr>
-          <td height="43" colspan="4"><div align="center">
-            <input type="submit" name="forwad" id="forwad" value="SUBMIT" />
-          </div></td>
-        </tr>
-      </table>
     </div>
     <p align="center">&nbsp;</p>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
