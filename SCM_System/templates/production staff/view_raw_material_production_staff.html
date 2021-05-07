@@ -6,32 +6,41 @@
 </head>
 
 <body>
+{% extends "production_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View Raw Materials</h1>
-    <table width="473" border="1">
+    <table class="table table-hover">
       <tr>
-        <td colspan="4"> Material Name
-          <label for="bname search"></label>
-        <input type="text" name="bname search" id="bname search" />
-        <input type="submit" name="search" id="search" value="Search" /></td>
+        <td colspan="4">
+            <input type="text" class="input-group input-group-sm" name="bname search" id="bname search" placeholder="Branch Name" /></td>
+        <td><input type="submit" class="btn btn-default" name="search" id="search" value="Search" /></td>
       </tr>
       <tr>
-        <td width="68">Sl.No</td>
-        <td width="160">Raw Material Name</td>
-        <td width="102">Available</td>
-        <td width="115">&nbsp;</td>
+          <td><b>Sl.No</b></td>
+          <td><b>Raw Material Name</b></td>
+          <td><b>GSM</b></td>
+          <td><b>Available</b></td>
+          <td><b>Action</b></td>
       </tr>
+        {% for i in data %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><p><a href="request_material_production.html">Request</a></p>
-        <p><a href="update_material_usage.html">Update Usage</a></p></td>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.raw_material_name }}</td>
+          <td>{{ i.gsm }}</td>
+          <td>{{ i.stock }}</td>
+
+
+          <td><a href="/myapp/production_update_material_usage/{{ i.id }}" class="btn btn-outline-success">Update Usage</a><td>
+
       </tr>
+        {% endfor %}
+
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
