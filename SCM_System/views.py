@@ -223,8 +223,6 @@ def adm_allocate_raw_material_post(request):
         stt.quantity = int(allocated_qty)
         stt.save()
 
-
-
     all_sub=[]
     alct_obj=allocate.objects.all()
     for jj in alct_obj:
@@ -249,7 +247,11 @@ def adm_allocate_raw_material_post(request):
         stt.save()
 
     res = request_master.objects.filter(status="Pending")
-    return render(request,"admin/view_request.html", {'data':res})
+
+    text="<script>alert('Material Allocated'); window.location='/myapp/adm_view_request';</script>"
+    return HttpResponse(text)
+    # return render(request,"admin/view_request.html", {'data':res})
+
 def adm_view_notification(request):
     res = notification.objects.all()
     return render(request,"admin/view_notification.html", {'data':res})
@@ -360,12 +362,31 @@ def adm_production_details(request,id):
 def adm_view_raw_material(request):
     res = raw_material.objects.all()
 
-    return render(request,"admin/view_production.html", {'data':res})
+    return render(request,"admin/view_raw_material.html", {'data':res})
 def adm_view_request(request):
 
     res = request_master.objects.filter(status="Forwarded")
     # res = request_master.objects.all()
     return render(request,"admin/view_request.html", {'data':res})
+
+def adm_date_search_view_request(request):
+    if request.method=="POST":
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        print(start_date)
+        print(end_date)
+        res = request_master.objects.filter(date__range=(start_date,end_date), status='Forwarded')
+        print(res)
+
+
+        return render(request,"admin/view_request.html", {'data': res})
+
+def adm_branch_name_search_view_requst(request):
+    if request.method=="POST":
+        branch_name=request.POST['bnames_search']
+
+        comb_obj=branch.objects.filter(branch_name__contains=branch_name)
+        return render(request,"admin/view_request.html", {'data': comb_obj})
 
 
 def adm_view_sales_report_admin(request):
@@ -382,7 +403,7 @@ def adm_view_sales_report_admin(request):
         if branch_id not in bd:
             res2=sales_master.objects.filter(STAFF__BRANCH__id=branch_id)
             for jj in res2:
-                tot += int(jj.amount)
+                tot += float(jj.amount)
             data.append({'branch_name': ii.STAFF.BRANCH.branch_name, 'id': ii.STAFF.BRANCH.id, 'amount': tot})
             bd.append(branch_id)
 
@@ -534,11 +555,12 @@ def sales_home(request):
 
 def sales_sales_entry(request):
     res = product.objects.all()
+    res3 = raw_material.objects.all()
     #request.session['a'] = ""
     request.session['cust_email'] = ""
     request.session['cust_phn'] = ""
     request.session['tot'] = ""
-    return render(request,"sales_staff/sales_entry.html", {'data': res,'cust_email':"", 'cust_phn':""})
+    return render(request,"sales_staff/sales_entry.html", {'data': res, 'data3': res3,'cust_email':"", 'cust_phn':""})
 
 
 def sales_sales_entry_post(request):
@@ -552,27 +574,69 @@ def sales_sales_entry_post(request):
         request.session['cust_email'] = cemail
         request.session['cust_phn'] = cust_phn
         res = product.objects.all()
-        return render(request, "sales_staff/sales_entry.html", {'data': res, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn']})
+        res3 = raw_material.objects.all()
+
+        password = random.randint(0000, 9999)
+        log = login(username=cemail, password=password, user_type='user')
+        log.save()
+
+        s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        s.starttls()
+        s.login("shibinriz106@gmail.com", "9526385712Ms")
+        msg = MIMEMultipart()  # create a message.........."
+        message = "Messege from LINEN CLUB Admin"
+        msg['From'] = "shibinriz106@gmail.com"
+        msg['To'] = cemail
+        msg['Subject'] = "Your Password for Login"
+        body = "Your Password is:- - " + str(password)
+        msg.attach(MIMEText(body, 'plain'))
+        s.send_message(msg)
+
+        qq = user(user_name="Null", gender="Null", place="Null", post="Null", pin=000000, district="Null", state="Null", email=cemail, phone=cust_phn, profile_img="Null", LOGIN=log)
+        qq.save()
+
+
+
+        return render(request, "sales_staff/sales_entry.html", {'data': res, 'data3': res3, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn']})
     elif add=="Add":
         prod_id = request.POST['pname']
-        quantity = request.POST['qty']
         request.session['prod_name'] = prod_id
         pid = product.objects.get(pk=prod_id)
         price = pid.price
         product_name = pid.product_name
+        quantity = request.POST['qty']
+
+        size = request.POST['radio']
+        material_id = request.POST['mname']
+        request.session['mat_name'] = material_id
+        mid = raw_material.objects.get(pk=material_id)
+        mat_price = mid.price
+        material_name = mid.raw_material_name
+
+        print(size)
+        print(material_id)
+        print(mat_price)
+        print(material_name)
+
+
 
         # request.session['sbranch_id'] = branch_id
-        qry = cart(product_name=product_name, quantity=quantity, price=price, product_id=prod_id)
+        qry = cart(product_name=product_name, quantity=quantity, price=price, product_id=prod_id, size=size, material_price=mat_price, material_name=material_name, material_id=material_id)
         qry.save()
         res = product.objects.all()
+        res3 = raw_material.objects.all()
         cart_obj=cart.objects.all()
         ar=[]
         tot=0
+        tailoring=0
+        t_price=0
         for i in cart_obj:
-            tot+=int(i.price)*int(i.quantity)
+            tailoring+=int(i.price)*int(i.quantity)
+            t_price+=int(i.material_price)*float(i.size)
+            tot+=(int(i.price)*int(i.quantity))+(int(i.material_price)*float(i.size))
             request.session['tot'] = tot
-            ar.append({'id':i.id,'product_name':i.product_name,'quantity':i.quantity,'price':i.price,'amount':int(i.price)*int(i.quantity)})
-        return render(request, "sales_staff/sales_entry.html",{'data': res, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn'], 'data2': ar , 'total':tot})
+            ar.append({'id':i.id,'product_name':i.product_name,'quantity':i.quantity,'price':i.price,'tailoring':int(i.price)*int(i.quantity), 'size': i.size, 'material': i.material_name, 'mprice': i.material_price, 'price': int(i.material_price)*float(i.size),'amount': round(int(i.price)*int(i.quantity))+(int(i.material_price)*float(i.size))})
+        return render(request, "sales_staff/sales_entry.html",{'data': res, 'data3': res3, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn'], 'data2': ar , 'total':tot, 'tailoring': tailoring, 'tprice': t_price})
     elif submit == 'Submit':
         cart_obj = cart.objects.all()
         user_email = request.session['cust_email']
@@ -598,8 +662,10 @@ def sales_sales_entry_post(request):
         for i in cart_obj:
             pid = i.product_id
             qty = i.quantity
+            size = i.size
+            mid = i.material_id
 
-            qry2 = sales_sub(quantity=qty, PRODUCT_id=pid, SALES_MASTER_id=sid)
+            qry2 = sales_sub(quantity=qty, size=size, PRODUCT_id=pid, RAW_MATERIAL_id=mid, SALES_MASTER_id=sid)
             qry2.save()
         cartobj = cart.objects.all()
         cartobj.delete()
@@ -612,6 +678,7 @@ def sales_del_cart(request,id):
     qry=cart.objects.get(pk=id)
     qry.delete()
     res = product.objects.all()
+    res3 = raw_material.objects.all()
     cart_obj = cart.objects.all()
     ar = []
     tot = 0
@@ -620,7 +687,7 @@ def sales_del_cart(request,id):
         request.session['tot'] = tot
         ar.append({'id': i.id, 'product_name': i.product_name, 'quantity': i.quantity, 'price': i.price,
                    'amount': int(i.price) * int(i.quantity)})
-    return render(request, "sales_staff/sales_entry.html",{'data': res, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn'],'data2': ar, 'total': tot})
+    return render(request, "sales_staff/sales_entry.html",{'data': res, 'data3': res3, 'cust_email': request.session['cust_email'], 'cust_phn': request.session['cust_phn'],'data2': ar, 'total': tot})
 
 def sales_view_sales_report_common(request):
     res = sales_master.objects.filter(STAFF__BRANCH=request.session['sbranch_id'])
@@ -637,9 +704,34 @@ def sales_view_sales_details(request,id):
 
     return render(request, "sales_staff/view_sales_details.html", {'data2': res2, 'data': res})
 
-def sales_view_product_sales_staff(request):
-    res = product.objects.all()
-    return render(request, "sales_staff/view_product_sales_staff.html", {'data':res})
+def sales_view_product_new_sales_staff(request):
+    res = sales_master.objects.filter(STAFF__BRANCH=request.session['sbranch_id'], status='Out For Deliver')
+    return render(request, "sales_staff/view_product_sales_staff.html", {'data2':res})
+
+def sales_phone_number_search(request):
+    if request.method=="POST":
+        phone_number=request.POST['phonenumber']
+        comb_obj=sales_master.objects.filter(user_phone__contains=phone_number, status='Out For Deliver')
+        return render(request,"sales_staff/view_product_sales_staff.html", {'data2': comb_obj})
+
+def sales_view_product_new_details_sales_staff(request,id):
+    res = sales_sub.objects.filter(SALES_MASTER_id=id)
+    return render(request, "sales_staff/view_product_details_sales_staff.html", {'data':res})
+
+def sales_delivered(request,id):
+
+    res = sales_master.objects.filter(pk=id).update(status='Delivered')
+
+    text = "<script>alert('Delivered'); window.location='/myapp/sales_view_product_delivered_sales_staff';</script>"
+    return HttpResponse(text)
+
+def sales_view_product_delivered_sales_staff(request):
+    res = sales_master.objects.filter(STAFF__BRANCH=request.session['sbranch_id'], status='Delivered')
+    return render(request, "sales_staff/view_product_delivered_sales_staff.html", {'data':res})
+
+def sales_view_product_delivered_details_sales_staff(request,id):
+    res = sales_sub.objects.filter(SALES_MASTER_id=id)
+    return render(request, "sales_staff/view_product_deliverd_details_sales_staff.html", {'data':res})
 
 def sales_view_profile(request):
     aa=login.objects.get(id=request.session['lid'])
@@ -673,12 +765,24 @@ def sales_edit_profile_update(request):
 
 
 
-def sales_product_name_search(request):
+def sales_phone_number_search(request):
     if request.method=="POST":
-        product_name=request.POST['productssearch']
-        print(product_name)
-        comb_obj=product.objects.filter(product_name__contains=product_name)
-        return render(request,"sales_staff/view_product_sales_staff.html", {'data': comb_obj})
+        phonenumber=request.POST['phonenumber']
+        comb_obj=sales_master.objects.filter(user_phone__contains=phonenumber, status='Delivered')
+        return render(request,"sales_staff/view_product_delivered_sales_staff.html", {'data': comb_obj})
+
+
+def sales_date_search_sales_report(request):
+    if request.method=="POST":
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        print(start_date)
+        print(end_date)
+        res = sales_master.objects.filter(date__range=(start_date,end_date))
+        print(res)
+
+
+        return render(request,"sales_staff/view_sales_report_common.html", {'data': res})
 
 def adm_del_notification(request,id):
     qry=notification.objects.get(pk=id)
@@ -689,10 +793,7 @@ def production_home(request):
 
     return render(request,"production_home.html")
 
-def production_view_rawmaterial(request):
-    res = stock.objects.all()
 
-    return render(request,"production staff/view_raw_material_production_staff.html", {'data': res})
 
 def production_update_material_usage(request,id):
     res = raw_material.objects.get(pk=id)
@@ -710,16 +811,18 @@ def production_update_material_usage_post(request):
     bid=sid.BRANCH.id
     # cc=sid.BRANCH.id
     # bid = branch.objects.get(id=cc)
+    print("sid",sid)
+    print("rid",rid)
 
     qry = raw_material_used(date=date.today(), quantity_used=qty, STAFF=sid, RAW_MATERIAL=rid)
     qry.save()
 
     # qry2 = stock.objects.filter(BRANCH=bid, RAW_MATERIAL=rid).update(quantity=
 
-    stock_obj = stock.objects.filter(BRANCH=bid, RAW_MATERIAL=rid)
+    stock_obj = stock.objects.filter(BRANCH_id=bid, RAW_MATERIAL_id=rid)
     if stock_obj.exists():
         stt = stock_obj[0]
-        stt.quantity = int(stt.quantity) - int(qty)
+        stt.quantity = int(stt.quantity) - float(qty)
         stt.save()
 
     #srid=stock.objects.get(RAW_MATERIAL=rid)
@@ -733,10 +836,25 @@ def production_update_material_usage_post(request):
 
     # branch_id = raw_material_used.objects.get(RAW_MATERIAL_id=bid)
     # bbid = branch_id.RAW_MATERIAL
-     # qry2 = stock(rid.update(int(rid.quantity) - int(rid.qty_left)))
-     # qry2.save()
+     #qry2 = stock(rid.update(int(rid.quantity) - int(rid.qty_left)))
+
     return production_view_material_usage(request)
     #return render(request, "production staff/view_material_usage.html")
+
+def production_view_rawmaterial(request):
+
+    rw=[]
+    data=[]
+    res = stock.objects.filter(BRANCH_id=request.session['pbranch_id'])
+    for ii in res:
+        if ii.RAW_MATERIAL_id not in rw:
+            data.append({'raw_material_name': ii.RAW_MATERIAL.raw_material_name, 'id': ii.RAW_MATERIAL_id, 'stock': ii.quantity, 'gsm': ii.RAW_MATERIAL.gsm})
+            rw.append(ii.RAW_MATERIAL_id)
+
+    print(rw)
+
+
+    return render(request,"production staff/view_raw_material_production_staff.html", {'data': data})
 
 
 def production_view_material_usage(request):
@@ -744,7 +862,7 @@ def production_view_material_usage(request):
 
     rw=[]
     data=[]
-    res = raw_material_used.objects.all()
+    res = raw_material_used.objects.filter(STAFF__BRANCH=request.session['pbranch_id'])
     for ii in res:
         if ii.RAW_MATERIAL_id not in rw:
             data.append({'raw_material_name': ii.RAW_MATERIAL.raw_material_name, 'id': ii.RAW_MATERIAL_id})
@@ -757,12 +875,52 @@ def production_view_material_usage(request):
 
 def production_usage_details(request,id):
 
-    res = raw_material_used.objects.filter(RAW_MATERIAL=id)
+    res = raw_material_used.objects.filter(STAFF__BRANCH=request.session['pbranch_id'],RAW_MATERIAL=id)
     return render(request, "production staff/usage_details.html", {'data': res})
 
 def production_update_production(request):
-    res = product.objects.all()
-    return render(request, "production staff/update_production.html", {'data2': res})
+    res = sales_master.objects.filter(STAFF__BRANCH=request.session['pbranch_id'],status='Paid')
+    return render(request, "production staff/update_production.html", {'data': res})
+
+def production_out_for_delivery(request,id):
+
+    res = sales_master.objects.filter(pk=id).update(status='Out For Deliver')
+
+    res2 = sales_sub.objects.filter(SALES_MASTER_id=id)
+    for ii in res2:
+        rid =ii.RAW_MATERIAL
+        qty =ii.size
+        pqty =ii.quantity
+        pid = ii.PRODUCT
+
+    #rid=request.session['rid']
+
+        aa=login.objects.get(id=request.session['lid'])
+        sid=staff.objects.get(LOGIN=aa)
+        bid=sid.BRANCH.id
+    # cc=sid.BRANCH.id
+    # bid = branch.objects.get(id=cc)
+        print("sid",sid)
+        print("rid",rid)
+
+        qry = raw_material_used(date=date.today(), quantity_used=qty, STAFF=sid, RAW_MATERIAL=rid)
+        qry.save()
+
+        stock_obj = stock.objects.filter(BRANCH_id=bid, RAW_MATERIAL_id=rid)
+        if stock_obj.exists():
+            print("stockkkk")
+            stt = stock_obj[0]
+            stt.quantity = int(stt.quantity) - float(qty)
+            stt.save()
+        pid = product.objects.get(pk=pid.id)
+        aa = login.objects.get(id=request.session['lid'])
+        sid = staff.objects.get(LOGIN=aa)
+        qry1 = production(date=date.today(), stock=pqty, PRODUCT=pid, STAFF_id=sid.id)
+        qry1.save()
+
+    # return render(request, "production staff/update_production.html")
+    text = "<script>alert('Production Updated'); window.location='/myapp/production_update_production';</script>"
+    return HttpResponse(text)
 
 def production_update_production_post(request):
     product_name=request.POST['pname']
@@ -775,6 +933,12 @@ def production_update_production_post(request):
     #return production_view_production_report(request)
     text = "<script>alert('Production Updated'); window.location='/myapp/production_update_production';</script>"
     return HttpResponse(text)
+def production_update_production_details(request,id):
+
+    res = sales_sub.objects.filter(SALES_MASTER__STAFF__BRANCH=request.session['pbranch_id'],SALES_MASTER_id=id)
+
+    return render(request, "production staff/update_production_details.html", {'data': res})
+
 
 def production_view_production_report(request):
 
@@ -866,7 +1030,7 @@ def production_request_material_post(request):
 
         return production_request_material_production(request)
 
-def sales_del_cart(request,id):
+def production_del_cart(request,id):
     qry=request_sub.objects.get(pk=id)
     qry.delete()
     res = raw_material.objects.all()
@@ -929,6 +1093,18 @@ def manager_add_staff_post(request):
     #bid = branch.objects.get(pk=staff_name)
     qry = staff(staff_name=staff_name, dob=dob, gender=gender, position=position, place=place, post=post, district=district, state=state, pin=pin, email=email, phone=phone,  profile_img=image, BRANCH=branch_id, LOGIN=log)
     qry.save()
+    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    s.starttls()
+    s.login("shibinriz106@gmail.com", "9526385712Ms")
+    msg = MIMEMultipart()  # create a message.........."
+    message = "Message From LINEN CLUB Admin Team"
+    msg['From'] = "shibinriz106@gmail.com"
+    msg['To'] = email
+    msg['Subject'] = "Message From LINEN CLUB Admin Team"
+    body = "Your Password is:- - " + str(password)
+    msg.attach(MIMEText(body, 'plain'))
+    s.send_message(msg)
+
     # return manager_view_staff(request)
     text = "<script>alert('Staff Added'); window.location='/myapp/manager_add_staff';</script>"
     return HttpResponse(text)
@@ -977,9 +1153,20 @@ def manager_view_profile(request):
     return render(request, "manager/view_profile-manager.html", {'data': res})
 
 def manager_view_products(request):
-    res = product.objects.all()
+    res = sales_master.objects.filter(STAFF__BRANCH=request.session['branch_id'], status='Delivered')
 
     return render(request, "manager/view_product_manager.html", {'data': res})
+
+def manager_view_products_delivered_details(request,id):
+    res = sales_sub.objects.filter(SALES_MASTER_id=id)
+
+    return render(request, "manager/view_product_delivered_details_manager.html", {'data': res})
+
+def manager_phone_number_search(request):
+    if request.method=="POST":
+        phonenumber=request.POST['phonenumber']
+        comb_obj=sales_master.objects.filter(user_phone__contains=phonenumber, status='Delivered')
+        return render(request,"manager/view_product_manager.html", {'data': comb_obj})
 
 def manager_staff_name_search(request):
     if request.method=="POST":
@@ -1086,6 +1273,18 @@ def manager_view_notification(request):
     res = notification.objects.filter(BRANCH_id=request.session['branch_id'])
 
     return render(request, "manager/view_notification_branch.html", {'data': res})
+
+def manager_date_search_view_request(request):
+    if request.method=="POST":
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        print(start_date)
+        print(end_date)
+        res = request_master.objects.filter(date__range=(start_date,end_date), status='Pending')
+        print(res)
+
+
+        return render(request,"manager/view_request_from_production.html", {'data': res})
 
 
 
