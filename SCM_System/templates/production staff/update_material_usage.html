@@ -6,27 +6,28 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
-  <div align="center">
+{% extends "production_home.html" %}
+{% block body %}
+
     <h1>Update Material Usage</h1>
-    <table width="306" border="0">
-      <tr>
-        <td width="112" height="42">Raw Material</td>
-        <td width="184"><label for="material"></label><label>Material Name</label></td>
-      </tr>
-      <tr>
-        <td height="47">Quantity Used</td>
-        <td><label for="quantity"></label>
-        <input type="text" name="quantity" id="quantity" /></td>
-      </tr>
-      <tr>
-        <td height="57" colspan="2"><div align="center">
-          <input type="submit" name="add" id="add" value="ADD" />
-        </div></td>
-      </tr>
-    </table>
-    <p>&nbsp;</p>
-  </div>
+    <div class="container">
+<form id="form1" name="form1" method="post" action="/myapp/production_update_material_usage_post/" onsubmit="return"> {% csrf_token %}
+
+    <p><h3>Materaial Name : <u>{{ data.raw_material_name }}</u></h3></p>
+
+        <div class="form-group">
+            <label for="place">Quantity Used :</label>
+            <input type="text" class="form-control" id="qty" placeholder="Enter Quantity Used" name="qty" required/>
+        </div>
+        <p>&nbsp;</p>
+        <div align="center">
+            <input type="submit" class="btn btn-outline-primary" id="add" name="add" value="Add"/>
+        </div>
+
+
+
 </form>
+      </div>
+{% endblock %}
 </body>
 </html>
