@@ -6,38 +6,27 @@
 </head>
 
 <body>
+{% extends "production_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View Material Usage</h1>
-    <table width="473" border="1">
+    <table class="table table-hover">
+
       <tr>
-        <td colspan="5"> <p>Sart Date
-            <label for="start_date"></label>
-        <input type="text" name="start_date" id="start_date" />
-        </p>
-          <p>End Date
-            <label for="end_date"></label>
-            <input type="text" name="end_date" id="end_date" />
-            <input type="submit" name="search" id="search" value="Search" />
-        </p></td>
-      </tr>
+          <td><b>Sl.No</b></td>
+          <td><b>Material Name</b></td>
+          <td><b>Action</b></td>
+      </tr>{% for i in data %}
       <tr>
-        <td width="36">Sl.No</td>
-        <td width="73">Date</td>
-        <td width="69">Material Name</td>
-        <td width="40">GSM</td>
-        <td width="91">Quantity</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.raw_material_name }}</td>
+          <td><a href="/myapp/production_usage_details/{{ i.id }}" class="btn btn-success">More</a></td>
+      </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
