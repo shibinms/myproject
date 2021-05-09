@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+{% extends "production_home.html" %}
+{% block body %}
+    <div align="center">
+    <h1>Usage Details</h1>
+<form id="form1" name="form1" method="post" action="">  {% csrf_token %}
+
+
+    <table class="table table-hover">
+    <!--<tr>
+        <td><input type="date" class="form-control" name="start_date" id="start_date" /></td>
+        <td><input type="date" class="form-control" name="end_date" id="end_date" /></td>
+        <td><input type="submit" class="btn btn-block" name="search" id="search" value="Search" /></td>
+    </tr>-->
+
+
+      <tr>
+          <td><b>Sl.No</b></td>
+          <td><b>Date</b></td>
+          <td><b>Quantity Used</b></td>
+
+      </tr>{% for i in data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.quantity_used }}</td>
+
+      </tr>{% endfor %}
+    </table>
+    <p>&nbsp;</p>
+
+</form>{% endblock %}
+    </div>
+</body>
+</html>
