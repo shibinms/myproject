@@ -4,8 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
 </head>
-
-<body>
+<script>
+function showTable1(){
+document.getElementById('table1').style.display = "table";
+}
+function showTable2(){
+document.getElementById('table2').style.display = "table";
+}
+function showTable3(){
+document.getElementById('table3').style.display = "table";
+}
+function hideTable(){
+document.getElementById('table1').style.display = "none";
+document.getElementById('table2').style.display = "none";
+document.getElementById('table3').style.display = "none";
+}
+</script>
+<body onload="javascript:hideTable()">
 {% extends "sales_home.html" %}
 {% block body %}
     <div class="container">
@@ -14,9 +29,7 @@
 
 {% if cust_email == "" %}
       <table width="508" border="0">
-        <tr>
-          <td colspan="3">Sale id : <label>#</label></td>
-        </tr>
+
           <div class="form-group">
       <label for="cname">Customer Email :</label>
       <input type="email" class="form-control" id="cemail" placeholder="Enter Customer Email" value="{{ cust_email }}" name="cemail" required>
@@ -25,13 +38,26 @@
       <label for="phone">Phone No :</label>
       <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone" value="{{ cust_phn }}" required>
           </div>
-    <div align="center">
+        <p>&nbsp;</p>
+
+        <div align="center">
 
     <input type="submit" name="button" class="btn btn-outline-primary" value="Save"/>
     </div>
       {% endif %}
-
-
+        <div class="form-group">
+            <label for="mname">Material Name :</label>
+            <select class="form-control" name="mname" id="mname" required>
+                {% for i in data3 %}
+              <option value="{{ i.pk }}">{{ i.raw_material_name }}</option>
+                      {% endfor %}
+            </select>
+            </div>
+            <div class="form-group">
+                <label for="length">Length :</label>
+                <input type="text" class="form-control" id="length" placeholder="Length of Material (in meter)" name="length">
+            </div>
+    <h3>Production Details</h3>
         <div class="form-group">
          <label for="pname">Product Name :</label>
             <select class="form-control" name="pname" id="pname" required>
@@ -40,10 +66,53 @@
                       {% endfor %}
             </select>
         </div>
-            <div class="form-group">
+         <div class="form-group">
       <label for="qty">Quantity :</label>
       <input type="text" class="form-control" id="qty" placeholder="Enter Quantity" name="qty">
           </div>
+        <p>&nbsp;</p>
+
+        <div class="form-group">
+      <label for="discount">Measurement :</label>&nbsp;
+            <input type='button' onClick='javascript:showTable1();' class="btn btn-success" value='Jacket'>
+            <input type='button' onClick='javascript:showTable2();' class="btn btn-success" value='Shirt'>
+            <input type='button' onClick='javascript:showTable3();' class="btn btn-success" value='Trousers'>
+            <input type='button' onClick='javascript:hideTable();' class="btn btn-danger" value='Hide'>
+            <p>&nbsp;</p>
+
+            <table class="table table-bordered" id="table1">
+                <tr>
+                    <td colspan="12"><b>Jacket Measurement</b></td>
+                </tr>
+                <tr>
+                    <td>Length</td><td>Shoulder</td><td>Sleeve Length</td><td>Chest</td><td>Waist</td><td>Hip</td><td>Neck</td><td>Half Back</td><td>Cross Back</td><td>Cross Front</td><td>Bicep</td><td>Arm Role Round</td>
+
+            </table>
+            <table class="table table-bordered" id="table2">
+                <tr>
+                    <td colspan="11"><b>Shirt Measurement</b></td>
+                </tr>
+                <tr>
+                    <td>Length</td><td>Shoulder</td><td>Sleeve Length</td><td>Chest</td><td>Waist</td><td>Hip</td><td>Chuss Front</td><td>Cross Back</td><td>Neck</td><td>Cuff</td><td>Arm Hole Round</td>
+                </tr>
+                </tr>
+
+            </table>
+            <table class="table table-bordered" id="table3">
+                 <tr>
+                     <td colspan="9"><b>Trouser Measurement</b></td>
+                </tr>
+                <tr>
+                    <td>Length</td><td>Inseam</td><td>Crotch</td><td>Waist</td><td>Hip</td><td>Thigh</td><td>Knee</td><td>Bottom</td><td>Flow</td>
+                </tr>
+            </table>
+                <input type="text" class="form-control" id="sz" placeholder="Measurement (in inches)" name="sz">
+
+
+          </div>
+
+
+    <p>&nbsp;</p>
     <div align="center">
 
     <input type="submit" name="button" class="btn btn-outline-primary" value="Add"/>
@@ -51,11 +120,15 @@
       <table class="table table-hover">
 
             <tr>
-              <td><div>Sl.No</div></td>
-              <td><div>Product</div></td>
-              <td><div>Quantity</div></td>
-              <td><div>Price</div></td>
-              <td><div>Amount</div></td>
+              <td><div><b>Sl.No</b></div></td>
+              <td><div><b>Product</b></div></td>
+              <td><div><b>Quantity</b></div></td>
+              <td><div><b>Tailoring Amount</b></div></td>
+              <td><div><b>Size</b></div></td>
+              <td><div><b>Material</b></div></td>
+              <td><div><b>Length</b></div></td>
+              <td><div><b>Price</b></div></td>
+                <td><div><b>Total</b></div></td>
               <td>&nbsp;</td>
               </tr>{% for i in data2 %}
 
@@ -63,39 +136,62 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ i.product_name }}</td>
                 <td>{{ i.quantity }}</td>
-                <td>{{ i.price }}</td>
-                <td>{{ i.amount }}</td>
-              <td><a href="/myapp/sales_del_cart/{{ i.id }}">Remove</a></td>
+                <td>{{ i.tailoring }}</td>
+                <td>{{ i.size }}</td>
+                <td>{{ i.material }}</td>
+                <td>{{ i.length }}</td>
+                <td>{{ i.price|floatformat:0 }}</td>
+                <td>{{ i.amount|floatformat:0 }}</td>
+              <td><a href="/myapp/sales_del_cart/{{ i.id }}" class="btn btn-danger">Remove</a></td>
               </tr>{% endfor %}
 
           <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
-              <td>Total Amount = </td>
-              <td><label>{{ total }}</label></td>
+              <td></td>
+              <td><label><b>{{ tailoring|floatformat:0 }}</b></label></td>
               <td>&nbsp;</td>
-              </tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><label><b>{{ tprice|floatformat:0 }}</b></label></td>
+              <td>&nbsp;</td>
 
-        </tr>
-              <tr>
-          <td height="58" colspan="6">
+
+          </tr>
+
+          <tr>
+
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><b>Grand Total  </b></td>
+              <td><label><b>{{ total|floatformat:0 }}</b></label></td>
+
+          </tr>
+          <tr>
+              <td height="58" colspan="10">
 
 
-                <div class="form-group">
+              <div class="form-group">
       <label for="discount">Discount :</label>
       <input type="text" class="form-control" id="discount" placeholder="Enter Discount" name="discount">
           </div>
 
-          </td>
-        </tr>
-        <tr>
-          <td height="58" colspan="6">
+              </td>
+          </tr>
+          <tr>
+               <td height="58" colspan="10">
+              <p>&nbsp;</p>
                 <div align="center">
 
     <input type="submit" name="button" class="btn btn-outline-primary" value="Submit"/>
     </div>
-          </td>
-        </tr>
+               </td>
+           </tr>
       </table>
 
     <p align="justify">&nbsp;</p>
