@@ -6,23 +6,27 @@
 </head>
 
 <body>
+{% extends "manager_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View  Material Allocated</h1>
-    <table width="473" border="1">
+    <table class="table table-hover">
       <tr>
-        <td width="36">Sl.No</td>
-        <td width="73">Raw Material</td>
-        <td width="69">Quantity Allocated</td>
-      </tr>
+        <td>Sl.No</td>
+        <td>Raw Material</td>
+        <td>Action</td>
+      </tr>{% for i in data %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.raw_material_name }}</td>
+        <td><a href="/myapp/manager_allocate_details/{{ i.id }}" class="btn btn-success">More</a> </td>
+
+      </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
 </body>
+{% endblock %}
 </html>
