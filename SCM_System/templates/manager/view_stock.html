@@ -6,23 +6,32 @@
 </head>
 
 <body>
+{% extends "manager_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View Stock</h1>
-    <table width="473" border="1">
+    {% if  ws  == 0 %}
+        <div class="alert alert-warning">
+            <strong>Warning!</strong> Low Stock Alert..!
+        </div>
+    {% endif %}
+
+    <table class="table table-hover">
       <tr>
-        <td width="36">Sl.No</td>
-        <td width="73">Raw Material Name</td>
-        <td width="69">Quantity Available</td>
-      </tr>
+          <td><b>Sl.No</b></td>
+        <td><b>Raw Material Name</b></td>
+        <td><b>Quantity Available</b></td>
+      </tr>{% for i in data %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.RAW_MATERIAL.raw_material_name }}</td>
+        <td>{{ i.quantity }}</td>
+      </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
