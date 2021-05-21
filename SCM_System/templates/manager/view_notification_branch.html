@@ -6,25 +6,28 @@
 </head>
 
 <body>
+{% extends "manager_home.html" %}
+{% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
     <h1>View Notification</h1>
-    <table width="473" border="1">
+    <table class="table table-hover">
       <tr>
-        <td width="36">Sl.No</td>
-        <td width="69">Date</td>
-        <td width="40">Title</td>
-        <td width="40">Message</td>
-      </tr>
+          <td><b>Sl.No</b></td>
+        <td><b>Date</b></td>
+        <td><b>Title</b></td>
+        <td><b>Message</b></td>
+      </tr>{% for i in data %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.title }}</td>
+        <td>{{ i.message }}</td>
+      </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
   </div>
 </form>
+{% endblock %}
 </body>
 </html>
