@@ -10,19 +10,22 @@
 {% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
-    <h1>View Production</h1>
+    <h1>Production Details</h1>
     <table class="table table-hover">
 
       <tr>
-          <td><b>Sl.No</b></td>
-          <td><b>Branch Name</b></td>
-          <td><b>Action</b></td>
+        <td><b>Sl.No</b></td>
+
+        <td><b>Date</b></td>
+          <td><b>Quantity Produced</b></td>
+
 
       </tr>{% for i in data %}
       <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ i.branch_name }}</td>
-          <td><a href="/myapp/adm_production_details/{{ i.id }}" class="btn btn-success">More</a></td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.quantity }}</td>
+
       </tr>{% endfor %}
     </table>
     <p>&nbsp;</p>
