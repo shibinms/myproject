@@ -4,35 +4,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
 </head>
+
 <body>
 {% extends "index.html" %}
 {% block body %}
 <form id="form1" name="form1" method="post" action="">
   <div align="center">
-    <h1>Sales Report</h1>
+    <h1>Sales Details</h1>
+
     <table class="table table-hover">
       <tr>
-        <td colspan="3">
-            <input type="text" class="input-group input-group-sm" name="branch_name" placeholder="Branch Name" id="branch_name" /></td>
-          <td><input type="submit" class="btn btn-default" name="branch_search" id="branch_search" value="Submit" /></td>
-        </p></td>
-      </tr>
-      <tr>
+          <td><b>Sl.No</b></td></td>
+        <td><b>Date</b></td>
+        <td><b>Total Sale</b></td>
+        <td><b>Total Discount</b></td>
+        <td><b>Sale (After Discount)</b></td>
+        <td><b>Action</b></td>
 
-        <td><b>Sl.No</b></td>
-        <td><b>Branch Name</b></td>
-        <td><b>Today's Sale ({% now "SHORT_DATE_FORMAT" %})</b></td>
 
-          <td><b>Action</b></td>
+
       </tr>{% for i in data %}
       <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ i.branch_name }}</td>
+        <td>{{ i.date }}</td>
         <td>{{ i.amount|floatformat:0 }}</td>
+        <td>{{ i.discount }}</td>
+        <td>{{ i.total|floatformat:0 }}</td>
+        <td><a href="/myapp/adm_view_sales_details_admin/{{ i.id }}" class="btn btn-success">More</a></td>
 
 
-        <td><a href="/myapp/adm_view_sales/{{ i.id }}" class="btn btn-success">More</a></td>
+
       </tr>{% endfor %}
+
     </table>
     <p>&nbsp;</p>
   </div>
